@@ -34,3 +34,16 @@ SELECT s.backend_type,
 FROM pg_stat_log_data() s
 LEFT JOIN pg_database d ON d.oid = s.database_oid
 LEFT JOIN pg_roles u ON u.oid = s.user_oid;
+
+CREATE FUNCTION pg_stat_log_info(
+    OUT max_entries int,
+    OUT num_entries int,
+    OUT n_dropped bigint,
+    OUT stats_reset timestamp with time zone
+)
+RETURNS SETOF record
+AS 'MODULE_PATHNAME', 'pg_stat_log_info'
+LANGUAGE C STRICT PARALLEL UNSAFE;
+
+REVOKE ALL ON FUNCTION pg_stat_log_info() FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION pg_stat_log_info() TO pg_read_all_stats;
