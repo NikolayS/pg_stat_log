@@ -198,4 +198,131 @@ $result = $node->safe_psql('postgres', q(
 ));
 is($result, "0", "all counts are zero after reset");
 
+# ---------------------------------------------------------------
+# Test 9: pg_stat_log_info() basics
+# ---------------------------------------------------------------
+
+# One row, max_entries matches the GUC default (1024), num_entries is 0 after
+# the previous reset.
+my $info_rows = $node->safe_psql('postgres', q(
+	SELECT count(*) FROM pg_stat_log_info()
+));
+is($info_rows, "1", "pg_stat_log_info() returns one row");
+
+my $max_entries = $node->safe_psql('postgres', q(
+	SELECT max_entries FROM pg_stat_log_info()
+));
+my $guc_max = $node->safe_psql('postgres',
+	q(SHOW pg_stat_log.max_entries));
+is($max_entries, $guc_max,
+	"pg_stat_log_info.max_entries matches GUC pg_stat_log.max_entries");
+
+my $num_entries = $node->safe_psql('postgres', q(
+	SELECT num_entries FROM pg_stat_log_info()
+));
+is($num_entries, "0", "num_entries is 0 after reset");
+
+my $n_dropped = $node->safe_psql('postgres', q(
+	SELECT n_dropped FROM pg_stat_log_info()
+));
+is($n_dropped, "0", "n_dropped is 0 by default");
+
+# stats_reset advances on reset.
+my $reset_before = $node->safe_psql('postgres', q(
+	SELECT extract(epoch FROM stats_reset)::numeric FROM pg_stat_log_info()
+));
+$node->safe_psql('postgres',
+	q(SELECT pg_sleep(0.1); SELECT pg_stat_log_reset();));
+my $reset_after = $node->safe_psql('postgres', q(
+	SELECT extract(epoch FROM stats_reset)::numeric FROM pg_stat_log_info()
+));
+ok($reset_after > $reset_before,
+	"stats_reset timestamp advances after pg_stat_log_reset()");
+
+# ---------------------------------------------------------------
+# Test 10: n_dropped increments and reset reclaims slots
+# ---------------------------------------------------------------
+
+# Use an immediate stop so the persisted stats file (sized for the previous
+# max_entries) is discarded; otherwise, restarting with a different
+# max_entries would leave the stats file and shared memory sized
+# inconsistently.
+$node->stop('immediate');
+$node->append_conf('postgresql.conf', "pg_stat_log.max_entries = 64");
+$node->start;
+
+# Sanity: max_entries reflects the new setting, counters are fresh.
+$max_entries = $node->safe_psql('postgres', q(
+	SELECT max_entries FROM pg_stat_log_info()
+));
+is($max_entries, "64", "max_entries reflects restart-scoped GUC");
+
+# Generate many distinct (elevel, sqlerrcode) combinations to overflow
+# the 64-slot capacity. We use 100 different synthetic SQLSTATE codes.
+$node->safe_psql('postgres', q{
+	DO $$
+	DECLARE
+		i int;
+		code text;
+	BEGIN
+		FOR i IN 1..100 LOOP
+			code := 'Z' || lpad(i::text, 4, '0');
+			BEGIN
+				RAISE WARNING 'overflow test %', i USING ERRCODE = code;
+			EXCEPTION WHEN OTHERS THEN
+				NULL;
+			END;
+		END LOOP;
+	END $$;
+});
+$node->safe_psql('postgres', q(SELECT pg_stat_force_next_flush()));
+
+$num_entries = $node->safe_psql('postgres', q(
+	SELECT num_entries FROM pg_stat_log_info()
+));
+is($num_entries, "64", "num_entries saturates at max_entries");
+
+$n_dropped = $node->safe_psql('postgres', q(
+	SELECT n_dropped FROM pg_stat_log_info()
+));
+ok($n_dropped > 0, "n_dropped > 0 after overflowing max_entries");
+
+# Record a unique code that was dropped (code Z0099 should have been dropped,
+# since the first 64 unique codes consumed the capacity).
+my $dropped_before = $node->safe_psql('postgres', q(
+	SELECT count(*) FROM pg_stat_log_data() WHERE sqlerrcode = 'Z0099'
+));
+is($dropped_before, "0", "Z0099 was dropped before reset (no slot free)");
+
+# Reset should reclaim slots.
+$node->safe_psql('postgres', q(SELECT pg_stat_log_reset()));
+
+$num_entries = $node->safe_psql('postgres', q(
+	SELECT num_entries FROM pg_stat_log_info()
+));
+is($num_entries, "0", "num_entries is 0 after reset when saturated");
+
+$n_dropped = $node->safe_psql('postgres', q(
+	SELECT n_dropped FROM pg_stat_log_info()
+));
+is($n_dropped, "0", "n_dropped is 0 after reset");
+
+# Generate a NEW distinct error that wasn't tracked before and verify it
+# is now counted — proving reset actually reclaimed slots.
+$node->safe_psql('postgres', q{
+	DO $$
+	BEGIN
+		RAISE WARNING 'post-reset' USING ERRCODE = 'Z9999';
+	EXCEPTION WHEN OTHERS THEN
+		NULL;
+	END $$;
+});
+$node->safe_psql('postgres', q(SELECT pg_stat_force_next_flush()));
+
+my $post_reset = $node->safe_psql('postgres', q(
+	SELECT count FROM pg_stat_log_data() WHERE sqlerrcode = 'Z9999'
+));
+is($post_reset, "1",
+	"new distinct error is tracked after reset (slots reclaimed)");
+
 done_testing();
