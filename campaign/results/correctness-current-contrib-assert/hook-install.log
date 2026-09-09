@@ -1,0 +1,14 @@
+make: Entering directory '/home/bench/correctness-current-review/hook_probe'
+rm -f campaign_hook_probe.so campaign_hook_probe.o  \
+    campaign_hook_probe.bc
+make: Leaving directory '/home/bench/correctness-current-review/hook_probe'
+make: Entering directory '/home/bench/correctness-current-review/hook_probe'
+gcc -Wall -Wmissing-prototypes -Wpointer-arith -Wdeclaration-after-statement -Werror=vla -Wmissing-format-attribute -Wold-style-declaration -Wimplicit-fallthrough=5 -Wcast-function-type -Wshadow=compatible-local -Wformat-security -fno-strict-aliasing -fwrapv -fexcess-precision=standard -Wno-format-truncation -Wno-stringop-truncation -g -O2 -g -Wstrict-prototypes -Wold-style-definition -fPIC -fvisibility=hidden -I. -I./ -I/home/bench/results/contrib/install/include/postgresql/server -I/home/bench/results/contrib/install/include/postgresql/internal -D_GNU_SOURCE      -c -o campaign_hook_probe.o campaign_hook_probe.c
+gcc -Wall -Wmissing-prototypes -Wpointer-arith -Wdeclaration-after-statement -Werror=vla -Wmissing-format-attribute -Wold-style-declaration -Wimplicit-fallthrough=5 -Wcast-function-type -Wshadow=compatible-local -Wformat-security -fno-strict-aliasing -fwrapv -fexcess-precision=standard -Wno-format-truncation -Wno-stringop-truncation -g -O2 -g -Wstrict-prototypes -Wold-style-definition -fPIC -fvisibility=hidden campaign_hook_probe.o -L/home/bench/results/contrib/install/lib   -Wl,--as-needed -Wl,-rpath,'/home/bench/results/contrib/install/lib',--enable-new-dtags -fvisibility=hidden -shared -o campaign_hook_probe.so
+/usr/bin/mkdir -p '/home/bench/results/contrib/install/share/postgresql/extension'
+/usr/bin/mkdir -p '/home/bench/results/contrib/install/share/postgresql/extension'
+/usr/bin/mkdir -p '/home/bench/results/contrib/install/lib/postgresql'
+/usr/bin/install -c -m 644 .//campaign_hook_probe.control '/home/bench/results/contrib/install/share/postgresql/extension/'
+/usr/bin/install -c -m 644 .//campaign_hook_probe--1.0.sql  '/home/bench/results/contrib/install/share/postgresql/extension/'
+/usr/bin/install -c -m 755  campaign_hook_probe.so '/home/bench/results/contrib/install/lib/postgresql/'
+make: Leaving directory '/home/bench/correctness-current-review/hook_probe'

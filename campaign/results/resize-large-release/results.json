@@ -1,0 +1,33 @@
+{
+  "assertions": [
+    {
+      "name": "initial-capacity",
+      "status": "pass",
+      "actual": 1048576,
+      "expected": 1048576,
+      "note": "",
+      "category": "correctness"
+    },
+    {
+      "name": "initial-count",
+      "status": "pass",
+      "actual": 2,
+      "expected": 2,
+      "note": "",
+      "category": "correctness"
+    },
+    {
+      "name": "restart-success",
+      "status": "fail",
+      "actual": 1,
+      "expected": 0,
+      "note": "",
+      "category": "restart-contract"
+    }
+  ],
+  "summary": {
+    "pass": 2,
+    "fail": 1,
+    "error": 0
+  }
+}

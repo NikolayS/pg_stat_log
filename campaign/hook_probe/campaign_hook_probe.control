@@ -1,0 +1,4 @@
+comment = 'Disposable emit_log_hook chain probe for pg_stat_log correctness campaign'
+default_version = '1.0'
+module_pathname = '$libdir/campaign_hook_probe'
+relocatable = true

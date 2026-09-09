@@ -1,0 +1,89 @@
+{
+  "assertions": [
+    {
+      "name": "guc/63/range-diagnostic",
+      "status": "pass",
+      "actual": true,
+      "expected": true,
+      "note": "An invalid preload-time custom GUC can warn and retain its default rather than abort startup.",
+      "category": "correctness"
+    },
+    {
+      "name": "guc/63/fallback-default",
+      "status": "pass",
+      "actual": 1024,
+      "expected": 1024,
+      "note": "",
+      "category": "correctness"
+    },
+    {
+      "name": "guc/64/startup-success",
+      "status": "pass",
+      "actual": 0,
+      "expected": 0,
+      "note": "",
+      "category": "correctness"
+    },
+    {
+      "name": "guc/64/actual-value",
+      "status": "pass",
+      "actual": 64,
+      "expected": 64,
+      "note": "",
+      "category": "correctness"
+    },
+    {
+      "name": "guc/64/usable",
+      "status": "pass",
+      "actual": 2,
+      "expected": 2,
+      "note": "",
+      "category": "correctness"
+    },
+    {
+      "name": "guc/1048576/startup-success",
+      "status": "pass",
+      "actual": 0,
+      "expected": 0,
+      "note": "",
+      "category": "correctness"
+    },
+    {
+      "name": "guc/1048576/actual-value",
+      "status": "pass",
+      "actual": 1048576,
+      "expected": 1048576,
+      "note": "",
+      "category": "correctness"
+    },
+    {
+      "name": "guc/1048576/usable",
+      "status": "pass",
+      "actual": 2,
+      "expected": 2,
+      "note": "",
+      "category": "correctness"
+    },
+    {
+      "name": "guc/1048577/range-diagnostic",
+      "status": "pass",
+      "actual": true,
+      "expected": true,
+      "note": "An invalid preload-time custom GUC can warn and retain its default rather than abort startup.",
+      "category": "correctness"
+    },
+    {
+      "name": "guc/1048577/fallback-default",
+      "status": "pass",
+      "actual": 1024,
+      "expected": 1024,
+      "note": "",
+      "category": "correctness"
+    }
+  ],
+  "summary": {
+    "pass": 10,
+    "fail": 0,
+    "error": 0
+  }
+}

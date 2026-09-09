@@ -1,0 +1,7 @@
+{
+  "verified_utc": "2026-09-09",
+  "postgres_master": "86f7c82cf1023e3599f40f939727791a7090cd44",
+  "extension_main": "0a8b782c0695883a2708ac60ebf32e1a95250952",
+  "forge": "fc7284fa74a1286fe302c82f3512187b9f4160f0",
+  "contrib_patch_sha256": "2b8c784b1cabe36bbf3fb5f0dd7295e83da27a8f9e93bcbaadb242039a39c582"
+}

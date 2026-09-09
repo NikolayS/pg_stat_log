@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Core regression (assertion build)",
+    "status": "pass",
+    "evidence": "evidence/build-evidence/core-check.log.gz",
+    "note": "240 tests; recovered exact-master build evidence."
+  },
+  {
+    "name": "External extension (optimized)",
+    "status": "pass",
+    "evidence": "evidence/build-evidence/installcheck-release.log.gz",
+    "note": "One SQL regression and18 TAP tests; optimized build."
+  },
+  {
+    "name": "External extension (assertion)",
+    "status": "pass",
+    "evidence": "evidence/build-evidence/installcheck-assert.log.gz",
+    "note": "One SQL regression and18 TAP tests; assertion build."
+  },
+  {
+    "name": "Submitted contrib v1",
+    "status": "pass",
+    "evidence": "evidence/build-evidence/contrib-contrib-check.log",
+    "note": "Patch applies/builds; one SQL regression and18 TAP tests. This is not full adversarial coverage of the contrib variant."
+  }
+]

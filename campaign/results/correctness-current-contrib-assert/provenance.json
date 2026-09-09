@@ -1,0 +1,16 @@
+{
+  "postgres_sha": "86f7c82cf1023e3599f40f939727791a7090cd44",
+  "external_upstream_sha": "0a8b782c0695883a2708ac60ebf32e1a95250952",
+  "configure": "'--prefix=/home/bench/results/contrib/install' '--enable-cassert' '--enable-debug' '--enable-tap-tests' 'CFLAGS=-O2 -g'",
+  "version": "PostgreSQL 20devel",
+  "binary_source_harness_hashes": {
+    "/home/bench/results/contrib/install/bin/postgres": "c7fe806d016b59a2ae3bd7ec83784dd8a861d11deab4b628bfd012151ed775f0",
+    "/home/bench/results/contrib/install/lib/postgresql/pg_stat_log.so": "a1ffcdc74b4d49a2ded32c84790d061515d1e6aa28ff32e23ce202f57f91c5ec",
+    "/home/bench/results/contrib/install/lib/postgresql/campaign_hook_probe.so": "f793daebc0b683f01fb00475e8f04042be179a3366b6db969430a059e0e0c174",
+    "/home/bench/results/contrib/source/contrib/pg_stat_log/pg_stat_log.c": "a30210076a372acf7d82f025c8841c46c0d9c064f6471e6d38a761c3232c6340",
+    "/home/bench/correctness-current-review/correctness.py": "d6457d114563f92016f0de97558d1d55a05409abca70ad9f35f105d0ac17d25c"
+  },
+  "driver_exit_code": 1,
+  "stopped": true,
+  "submitted_patch_sha256": "2b8c784b1cabe36bbf3fb5f0dd7295e83da27a8f9e93bcbaadb242039a39c582"
+}

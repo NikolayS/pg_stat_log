@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+/results/**/*.log
+/results/**/*.jsonl
+/results/**/data/
+/results/**/pgdata/
+/results/**/socket/
+/site/
