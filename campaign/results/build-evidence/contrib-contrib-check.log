@@ -1,0 +1,72 @@
+make: Entering directory '/home/bench/results/contrib/build/contrib/pg_stat_log'
+make -C ../../src/test/regress pg_regress
+make[1]: Entering directory '/home/bench/results/contrib/build/src/test/regress'
+make -C ../../../src/port all
+make[2]: Entering directory '/home/bench/results/contrib/build/src/port'
+make[2]: Nothing to be done for 'all'.
+make[2]: Leaving directory '/home/bench/results/contrib/build/src/port'
+make -C ../../../src/common all
+make[2]: Entering directory '/home/bench/results/contrib/build/src/common'
+make[2]: Nothing to be done for 'all'.
+make[2]: Leaving directory '/home/bench/results/contrib/build/src/common'
+make[1]: Leaving directory '/home/bench/results/contrib/build/src/test/regress'
+make -C ../../src/test/isolation all
+make[1]: Entering directory '/home/bench/results/contrib/build/src/test/isolation'
+make -C ../../../src/interfaces/libpq all
+make[2]: Entering directory '/home/bench/results/contrib/build/src/interfaces/libpq'
+make -C ../../../src/port all
+make[3]: Entering directory '/home/bench/results/contrib/build/src/port'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/home/bench/results/contrib/build/src/port'
+make -C ../../../src/common all
+make[3]: Entering directory '/home/bench/results/contrib/build/src/common'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/home/bench/results/contrib/build/src/common'
+make[2]: Leaving directory '/home/bench/results/contrib/build/src/interfaces/libpq'
+make -C ../../../src/port all
+make[2]: Entering directory '/home/bench/results/contrib/build/src/port'
+make[2]: Nothing to be done for 'all'.
+make[2]: Leaving directory '/home/bench/results/contrib/build/src/port'
+make -C ../../../src/common all
+make[2]: Entering directory '/home/bench/results/contrib/build/src/common'
+make[2]: Nothing to be done for 'all'.
+make[2]: Leaving directory '/home/bench/results/contrib/build/src/common'
+make[1]: Leaving directory '/home/bench/results/contrib/build/src/test/isolation'
+make -C ../../src/backend generated-headers
+make[1]: Entering directory '/home/bench/results/contrib/build/src/backend'
+make -C ../include/catalog generated-headers
+make[2]: Entering directory '/home/bench/results/contrib/build/src/include/catalog'
+make[2]: Nothing to be done for 'generated-headers'.
+make[2]: Leaving directory '/home/bench/results/contrib/build/src/include/catalog'
+make -C nodes generated-header-symlinks
+make[2]: Entering directory '/home/bench/results/contrib/build/src/backend/nodes'
+make[2]: Nothing to be done for 'generated-header-symlinks'.
+make[2]: Leaving directory '/home/bench/results/contrib/build/src/backend/nodes'
+make -C utils generated-header-symlinks
+make[2]: Entering directory '/home/bench/results/contrib/build/src/backend/utils'
+make -C adt jsonpath_gram.h
+make[3]: Entering directory '/home/bench/results/contrib/build/src/backend/utils/adt'
+make[3]: 'jsonpath_gram.h' is up to date.
+make[3]: Leaving directory '/home/bench/results/contrib/build/src/backend/utils/adt'
+make[2]: Leaving directory '/home/bench/results/contrib/build/src/backend/utils'
+make[1]: Leaving directory '/home/bench/results/contrib/build/src/backend'
+rm -rf '/home/bench/results/contrib/build'/tmp_install
+/usr/bin/mkdir -p '/home/bench/results/contrib/build'/tmp_install/log
+make -C '../..' DESTDIR='/home/bench/results/contrib/build'/tmp_install install >'/home/bench/results/contrib/build'/tmp_install/log/install.log 2>&1
+make -j1  checkprep >>'/home/bench/results/contrib/build'/tmp_install/log/install.log 2>&1
+PATH="/home/bench/results/contrib/build/tmp_install/home/bench/results/contrib/install/bin:/home/bench/results/contrib/build/contrib/pg_stat_log:$PATH" LD_LIBRARY_PATH="/home/bench/results/contrib/build/tmp_install/home/bench/results/contrib/install/lib" INITDB_TEMPLATE='/home/bench/results/contrib/build'/tmp_install/initdb-template  initdb --auth trust --no-sync --no-instructions --lc-messages=C --no-clean '/home/bench/results/contrib/build'/tmp_install/initdb-template >>'/home/bench/results/contrib/build'/tmp_install/log/initdb-template.log 2>&1
+echo "# +++ regress check in contrib/pg_stat_log +++" && PATH="/home/bench/results/contrib/build/tmp_install/home/bench/results/contrib/install/bin:/home/bench/results/contrib/build/contrib/pg_stat_log:$PATH" LD_LIBRARY_PATH="/home/bench/results/contrib/build/tmp_install/home/bench/results/contrib/install/lib" INITDB_TEMPLATE='/home/bench/results/contrib/build'/tmp_install/initdb-template  ../../src/test/regress/pg_regress --temp-instance=./tmp_check --inputdir=/home/bench/results/contrib/source/contrib/pg_stat_log --bindir=     --temp-config /home/bench/results/contrib/source/contrib/pg_stat_log/pg_stat_log.conf --dbname=contrib_regression pg_stat_log
+# +++ regress check in contrib/pg_stat_log +++
+# could not set core size: disallowed by hard limit
+# initializing database system by copying initdb template
+# using temp instance on port 52544 with PID 41349
+ok 1         - pg_stat_log                                33 ms
+1..1
+# All 1 tests passed.
+echo "# +++ tap check in contrib/pg_stat_log +++" && rm -rf '/home/bench/results/contrib/build/contrib/pg_stat_log'/tmp_check && /usr/bin/mkdir -p '/home/bench/results/contrib/build/contrib/pg_stat_log'/tmp_check && cd /home/bench/results/contrib/source/contrib/pg_stat_log && TESTLOGDIR='/home/bench/results/contrib/build/contrib/pg_stat_log/tmp_check/log' TESTDATADIR='/home/bench/results/contrib/build/contrib/pg_stat_log/tmp_check' PATH="/home/bench/results/contrib/build/tmp_install/home/bench/results/contrib/install/bin:/home/bench/results/contrib/build/contrib/pg_stat_log:$PATH" LD_LIBRARY_PATH="/home/bench/results/contrib/build/tmp_install/home/bench/results/contrib/install/lib" INITDB_TEMPLATE='/home/bench/results/contrib/build'/tmp_install/initdb-template  PGPORT='65432' top_builddir='/home/bench/results/contrib/build/contrib/pg_stat_log/../..' PG_REGRESS='/home/bench/results/contrib/build/contrib/pg_stat_log/../../src/test/regress/pg_regress' share_contrib_dir='/home/bench/results/contrib/build/tmp_install/home/bench/results/contrib/install/share/postgresql/extension' /usr/bin/prove -I /home/bench/results/contrib/source/src/test/perl/ -I /home/bench/results/contrib/source/contrib/pg_stat_log  t/*.pl
+# +++ tap check in contrib/pg_stat_log +++
+t/001_pg_stat_log.pl .. ok
+All tests successful.
+Files=1, Tests=18,  2 wallclock secs ( 0.02 usr  0.01 sys +  0.22 cusr  0.46 csys =  0.71 CPU)
+Result: PASS
+make: Leaving directory '/home/bench/results/contrib/build/contrib/pg_stat_log'
