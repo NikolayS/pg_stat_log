@@ -9,6 +9,8 @@ import argparse
 import concurrent.futures
 import json
 import os
+import pwd
+import re
 from pathlib import Path
 import subprocess
 import time
@@ -19,11 +21,12 @@ class Campaign:
     def __init__(self, args):
         self.bin = Path(args.pg_bin).resolve()
         self.root = Path(args.workdir).resolve()
-        self.root.mkdir(parents=True, exist_ok=False)
+        self.root.mkdir(mode=0o700, parents=True, exist_ok=False)
         self.data = self.root / 'data'
         self.sock = self.root / 'socket'
         self.sock.mkdir()
         self.rows = []
+        self.groups = {}
         self.running = False
         self.hook_probe_enabled = args.hook_probe
         self.env = dict(os.environ, LC_ALL='C', PGCONNECT_TIMEOUT='5')
@@ -65,8 +68,8 @@ class Campaign:
 
     def save(self):
         (self.root / 'results.json').write_text(json.dumps(dict(
-            assertions=self.rows, summary={s: sum(r['status']==s for r in self.rows)
-            for s in ['pass', 'fail', 'error']}), indent=2)+'\n')
+            assertions=self.rows, groups=self.groups, summary={s: sum(r['status']==s for r in self.rows)
+            for s in ['pass', 'fail', 'error', 'not_run']}), indent=2)+'\n')
 
     def start(self):
         self.run('pg_ctl', ['-D', str(self.data), '-l', str(self.root/'server.log'),
@@ -90,11 +93,15 @@ class Campaign:
                 f"USING ERRCODE='{code}'; END LOOP; END $$;")
 
     def setup(self):
-        self.run('initdb', ['-D', str(self.data), '-U', 'postgres', '--no-locale', '-A', 'trust'])
+        self.run('initdb', ['-D', str(self.data), '-U', 'postgres', '--no-locale',
+                            '--auth-local=peer', '--auth-host=scram-sha-256'])
+        (self.data/'pg_hba.conf').write_text('local all all peer map=campaign\n')
+        (self.data/'pg_ident.conf').write_text(
+            f'campaign {pwd.getpwuid(os.getuid()).pw_name} postgres\n')
         with open(self.data/'postgresql.conf', 'a') as f:
             f.write(f"\nlisten_addresses=''\nport=55439\nunix_socket_directories='{self.sock}'\n"
                     "shared_preload_libraries='pg_stat_log'\npg_stat_log.max_entries=64\n"
-                    "log_min_messages=warning\nclient_min_messages=error\n"
+                    "log_connections=on\nlog_min_messages=warning\nclient_min_messages=error\n"
                     "autovacuum=off\nmax_connections=32\nshared_buffers='32MB'\n")
         self.start()
         self.sql('CREATE EXTENSION pg_stat_log;')
@@ -111,8 +118,11 @@ class Campaign:
                     code = 'Z1001'
                     self.reset()
                     raiselevel = 'DEBUG' if level == 'debug1' else ('EXCEPTION' if level == 'error' else level.upper())
-                    self.sql(f"SET log_min_messages={floor}; SET pg_stat_log.min_error_level={threshold}; "
+                    out = self.sql("\\set VERBOSITY verbose\n" +
+                             f"SET log_min_messages={floor}; SET pg_stat_log.min_error_level={threshold}; "
                              + self.emit(code, level=raiselevel), check=(level!='error'))
+                    if level == 'error' and (out.returncode != 3 or not re.search(r'ERROR:\s+Z1001:', out.stderr)):
+                        raise RuntimeError('Expected ERROR stimulus did not execute with SQLSTATE Z1001')
                     expected = int(rank[level] >= rank[floor] and rank[level] >= rank[threshold])
                     self.assertion(f'severity/{floor}/{threshold}/{level}', self.count(code), expected,
                         'Expected threshold ordering follows PostgreSQL server log severity, including LOG.',
@@ -332,12 +342,32 @@ def main():
         p.error('must run as a non-root OS user')
     c = Campaign(args)
     try:
-        c.setup()
-        for method in [c.severity, c.exact_and_identity, c.fatal_and_partitioning, c.parallel_workers, c.snapshots,
-                       c.capacity_and_restart, c.concurrent_capacity, c.reset_race, c.hook_chain]:
+        methods = [c.severity, c.exact_and_identity, c.fatal_and_partitioning,
+                   c.parallel_workers, c.snapshots, c.capacity_and_restart,
+                   c.concurrent_capacity, c.reset_race, c.hook_chain]
+        c.groups = {method.__name__: 'not_run' for method in methods}
+        c.save()
+        try:
+            c.setup()
+        except Exception as exc:
+            c.rows.append(dict(name='setup', status='error', error=str(exc),
+                               traceback=traceback.format_exc()))
+            c.save()
+            raise
+        for method in methods:
+            if method.__name__ == 'hook_chain' and not c.hook_probe_enabled:
+                c.rows.append(dict(name='hook_chain', status='not_run',
+                                   note='Test helper was not requested/installed.'))
+                c.save()
+                continue
             try:
+                c.groups[method.__name__] = 'running'
+                c.save()
                 method()
+                c.groups[method.__name__] = 'completed'
+                c.save()
             except Exception as exc:
+                c.groups[method.__name__] = 'error'
                 c.rows.append(dict(name=method.__name__, status='error', error=str(exc), traceback=traceback.format_exc()))
                 c.save()
                 raise
