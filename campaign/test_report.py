@@ -68,6 +68,14 @@ class ReportValidity(unittest.TestCase):
         self.assertIn('PARTIAL / NOT VALIDATED', self.html)
         self.assertNotIn('SUPPLIED MATRICES COMPLETE', self.html)
 
+    def test_public_report_excludes_email_draft(self):
+        self.output.mkdir()
+        (self.output / 'hackers-draft.txt').write_text('stale private draft')
+        self.generate()
+        self.assertFalse((self.output / 'hackers-draft.txt').exists())
+        self.assertNotIn('hackers-draft', self.html)
+        self.assertNotIn('Draft text', self.html)
+
     def test_missing_timing_is_pending(self):
         manifest = self.generate()
         self.assertEqual(manifest['benchmark_state'], 'BENCHMARKS PENDING')
@@ -109,8 +117,7 @@ class ReportValidity(unittest.TestCase):
                                  'PILOT COMPLETE — CONFIRMATION PENDING')
                 self.assertIn('PILOT COMPLETE — CONFIRMATION PENDING', self.html)
                 self.assertNotIn('SUPPLIED MATRICES COMPLETE', self.html)
-                self.assertIn('PILOT COMPLETE — CONFIRMATION PENDING',
-                              (self.output / 'hackers-draft.txt').read_text())
+                self.assertFalse((self.output / 'hackers-draft.txt').exists())
 
     def test_pilot_receipts_export_without_raw_corpus(self):
         self.valid_fixture()
