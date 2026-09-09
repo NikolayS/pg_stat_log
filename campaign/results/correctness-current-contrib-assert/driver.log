@@ -1,0 +1,150 @@
+{"name": "severity/warning/debug1/debug1", "status": "pass", "actual": 0, "expected": 0, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/warning/debug1/info", "status": "pass", "actual": 0, "expected": 0, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/warning/debug1/notice", "status": "pass", "actual": 0, "expected": 0, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/warning/debug1/warning", "status": "pass", "actual": 1, "expected": 1, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/warning/debug1/error", "status": "pass", "actual": 1, "expected": 1, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/warning/debug1/log", "status": "pass", "actual": 1, "expected": 1, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/warning/info/debug1", "status": "pass", "actual": 0, "expected": 0, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/warning/info/info", "status": "pass", "actual": 0, "expected": 0, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/warning/info/notice", "status": "pass", "actual": 0, "expected": 0, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/warning/info/warning", "status": "pass", "actual": 1, "expected": 1, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/warning/info/error", "status": "pass", "actual": 1, "expected": 1, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/warning/info/log", "status": "fail", "actual": 0, "expected": 1, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/warning/notice/debug1", "status": "pass", "actual": 0, "expected": 0, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/warning/notice/info", "status": "pass", "actual": 0, "expected": 0, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/warning/notice/notice", "status": "pass", "actual": 0, "expected": 0, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/warning/notice/warning", "status": "pass", "actual": 1, "expected": 1, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/warning/notice/error", "status": "pass", "actual": 1, "expected": 1, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/warning/notice/log", "status": "fail", "actual": 0, "expected": 1, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/warning/warning/debug1", "status": "pass", "actual": 0, "expected": 0, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/warning/warning/info", "status": "pass", "actual": 0, "expected": 0, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/warning/warning/notice", "status": "pass", "actual": 0, "expected": 0, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/warning/warning/warning", "status": "pass", "actual": 1, "expected": 1, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/warning/warning/error", "status": "pass", "actual": 1, "expected": 1, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/warning/warning/log", "status": "fail", "actual": 0, "expected": 1, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/warning/error/debug1", "status": "pass", "actual": 0, "expected": 0, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/warning/error/info", "status": "pass", "actual": 0, "expected": 0, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/warning/error/notice", "status": "pass", "actual": 0, "expected": 0, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/warning/error/warning", "status": "pass", "actual": 0, "expected": 0, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/warning/error/error", "status": "pass", "actual": 1, "expected": 1, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/warning/error/log", "status": "fail", "actual": 0, "expected": 1, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/warning/log/debug1", "status": "pass", "actual": 0, "expected": 0, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/warning/log/info", "status": "pass", "actual": 0, "expected": 0, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/warning/log/notice", "status": "pass", "actual": 0, "expected": 0, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/warning/log/warning", "status": "fail", "actual": 1, "expected": 0, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/warning/log/error", "status": "fail", "actual": 1, "expected": 0, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/warning/log/log", "status": "pass", "actual": 1, "expected": 1, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/debug1/debug1/debug1", "status": "pass", "actual": 1, "expected": 1, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/debug1/debug1/info", "status": "pass", "actual": 1, "expected": 1, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/debug1/debug1/notice", "status": "pass", "actual": 1, "expected": 1, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/debug1/debug1/warning", "status": "pass", "actual": 1, "expected": 1, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/debug1/debug1/error", "status": "pass", "actual": 1, "expected": 1, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/debug1/debug1/log", "status": "pass", "actual": 1, "expected": 1, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/debug1/info/debug1", "status": "pass", "actual": 0, "expected": 0, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/debug1/info/info", "status": "pass", "actual": 1, "expected": 1, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/debug1/info/notice", "status": "pass", "actual": 1, "expected": 1, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/debug1/info/warning", "status": "pass", "actual": 1, "expected": 1, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/debug1/info/error", "status": "pass", "actual": 1, "expected": 1, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/debug1/info/log", "status": "fail", "actual": 0, "expected": 1, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/debug1/notice/debug1", "status": "pass", "actual": 0, "expected": 0, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/debug1/notice/info", "status": "pass", "actual": 0, "expected": 0, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/debug1/notice/notice", "status": "pass", "actual": 1, "expected": 1, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/debug1/notice/warning", "status": "pass", "actual": 1, "expected": 1, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/debug1/notice/error", "status": "pass", "actual": 1, "expected": 1, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/debug1/notice/log", "status": "fail", "actual": 0, "expected": 1, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/debug1/warning/debug1", "status": "pass", "actual": 0, "expected": 0, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/debug1/warning/info", "status": "pass", "actual": 0, "expected": 0, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/debug1/warning/notice", "status": "pass", "actual": 0, "expected": 0, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/debug1/warning/warning", "status": "pass", "actual": 1, "expected": 1, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/debug1/warning/error", "status": "pass", "actual": 1, "expected": 1, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/debug1/warning/log", "status": "fail", "actual": 0, "expected": 1, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/debug1/error/debug1", "status": "pass", "actual": 0, "expected": 0, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/debug1/error/info", "status": "pass", "actual": 0, "expected": 0, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/debug1/error/notice", "status": "pass", "actual": 0, "expected": 0, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/debug1/error/warning", "status": "pass", "actual": 0, "expected": 0, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/debug1/error/error", "status": "pass", "actual": 1, "expected": 1, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/debug1/error/log", "status": "fail", "actual": 0, "expected": 1, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/debug1/log/debug1", "status": "pass", "actual": 0, "expected": 0, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/debug1/log/info", "status": "fail", "actual": 1, "expected": 0, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/debug1/log/notice", "status": "fail", "actual": 1, "expected": 0, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/debug1/log/warning", "status": "fail", "actual": 1, "expected": 0, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/debug1/log/error", "status": "fail", "actual": 1, "expected": 0, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "severity/debug1/log/log", "status": "pass", "actual": 1, "expected": 1, "note": "Expected threshold ordering follows PostgreSQL server log severity, including LOG.", "category": "severity-contract"}
+{"name": "disabled/no-count", "status": "pass", "actual": 0, "expected": 0, "note": "", "category": "correctness"}
+{"name": "enabled/session-toggle", "status": "pass", "actual": 3, "expected": 3, "note": "", "category": "correctness"}
+{"name": "caught-exception/not-logged", "status": "pass", "actual": 0, "expected": 0, "note": "Documented limitation: caught errors never reach emit_log_hook.", "category": "correctness"}
+{"name": "single-writer/exact", "status": "pass", "actual": 1000, "expected": 1000, "note": "", "category": "correctness"}
+{"name": "concurrent-writers/exact", "status": "pass", "actual": 8000, "expected": 8000, "note": "", "category": "correctness"}
+{"name": "identity/role-database-backend", "status": "pass", "actual": "campaign_db|campaign_user|client backend|5", "expected": "campaign_db|campaign_user|client backend|5", "note": "", "category": "correctness"}
+{"name": "unknown-sqlstate/name-null", "status": "pass", "actual": "t", "expected": "t", "note": "", "category": "correctness"}
+{"name": "known-sqlstate/name", "status": "pass", "actual": "division_by_zero", "expected": "division_by_zero", "note": "", "category": "correctness"}
+{"name": "privilege/denied/SELECT * FROM pg_stat_log_data()", "status": "pass", "actual": true, "expected": true, "note": "", "category": "correctness"}
+{"name": "privilege/denied/SELECT * FROM pg_stat_log", "status": "pass", "actual": true, "expected": true, "note": "", "category": "correctness"}
+{"name": "privilege/denied/SELECT * FROM pg_stat_log_info()", "status": "pass", "actual": true, "expected": true, "note": "", "category": "correctness"}
+{"name": "privilege/denied/SELECT pg_stat_log_reset()", "status": "pass", "actual": true, "expected": true, "note": "", "category": "correctness"}
+{"name": "privilege/denied/SET pg_stat_log.enabled=off", "status": "pass", "actual": true, "expected": true, "note": "", "category": "correctness"}
+{"name": "privilege/denied/SET pg_stat_log.min_error_level=panic", "status": "pass", "actual": true, "expected": true, "note": "", "category": "correctness"}
+{"name": "privilege/monitor/SELECT * FROM pg_stat_log_data()", "status": "pass", "actual": 0, "expected": 0, "note": "", "category": "correctness"}
+{"name": "privilege/monitor/SELECT * FROM pg_stat_log", "status": "pass", "actual": 0, "expected": 0, "note": "", "category": "correctness"}
+{"name": "privilege/monitor/SELECT * FROM pg_stat_log_info()", "status": "pass", "actual": 0, "expected": 0, "note": "", "category": "correctness"}
+{"name": "privilege/monitor-cannot-reset", "status": "pass", "actual": true, "expected": true, "note": "", "category": "correctness"}
+{"name": "fatal/connection-terminated", "status": "pass", "actual": true, "expected": true, "note": "", "category": "correctness"}
+{"name": "fatal/count-and-attribution", "status": "pass", "actual": "FATAL|client backend|postgres|postgres|1", "expected": "FATAL|client backend|postgres|postgres|1", "note": "", "category": "correctness"}
+{"name": "identity/distinct-composite-keys", "status": "pass", "actual": "campaign_db|campaign_user|7,campaign_db|postgres|5,postgres|campaign_user|3,postgres|postgres|2", "expected": "campaign_db|campaign_user|7,campaign_db|postgres|5,postgres|campaign_user|3,postgres|postgres|2", "note": "", "category": "correctness"}
+{"name": "parallel/workers-launched", "status": "pass", "actual": true, "expected": true, "note": "", "category": "correctness"}
+{"name": "parallel/exact-message-conservation", "status": "pass", "actual": 10000, "expected": 10000, "note": "", "category": "correctness"}
+{"name": "parallel/worker-attribution", "status": "fail", "actual": 0, "expected": 1, "note": "README promises parallel worker label; implementation uses generic background worker. See parallel_rows.json; this assertion does not imply lost counts.", "category": "documentation-contract"}
+{"name": "snapshot/none", "status": "pass", "actual": [1, 2, 2], "expected": [1, 2, 2], "note": "Within a transaction, cached fixed-stat snapshots remain stable until explicitly cleared.", "category": "correctness"}
+{"name": "snapshot/cache", "status": "pass", "actual": [1, 1, 2], "expected": [1, 1, 2], "note": "Within a transaction, cached fixed-stat snapshots remain stable until explicitly cleared.", "category": "correctness"}
+{"name": "snapshot/snapshot", "status": "pass", "actual": [1, 1, 2], "expected": [1, 1, 2], "note": "Within a transaction, cached fixed-stat snapshots remain stable until explicitly cleared.", "category": "correctness"}
+{"name": "capacity/exact-slots-drops", "status": "pass", "actual": "64|36", "expected": "64|36", "note": "", "category": "correctness"}
+{"name": "capacity/tracked-still-increments", "status": "pass", "actual": 12, "expected": 12, "note": "", "category": "correctness"}
+{"name": "capacity/repeated-untracked-drops", "status": "pass", "actual": 49, "expected": 49, "note": "", "category": "correctness"}
+{"name": "restart/all-saturated-entries-preserved", "status": "pass", "actual": "Z0001:12,Z0002:1,Z0003:1,Z0004:1,Z0005:1,Z0006:1,Z0007:1,Z0008:1,Z0009:1,Z0010:1,Z0011:1,Z0012:1,Z0013:1,Z0014:1,Z0015:1,Z0016:1,Z0017:1,Z0018:1,Z0019:1,Z0020:1,Z0021:1,Z0022:1,Z0023:1,Z0024:1,Z0025:1,Z0026:1,Z0027:1,Z0028:1,Z0029:1,Z0030:1,Z0031:1,Z0032:1,Z0033:1,Z0034:1,Z0035:1,Z0036:1,Z0037:1,Z0038:1,Z0039:1,Z0040:1,Z0041:1,Z0042:1,Z0043:1,Z0044:1,Z0045:1,Z0046:1,Z0047:1,Z0048:1,Z0049:1,Z0050:1,Z0051:1,Z0052:1,Z0053:1,Z0054:1,Z0055:1,Z0056:1,Z0057:1,Z0058:1,Z0059:1,Z0060:1,Z0061:1,Z0062:1,Z0063:1,Z0064:1", "expected": "Z0001:12,Z0002:1,Z0003:1,Z0004:1,Z0005:1,Z0006:1,Z0007:1,Z0008:1,Z0009:1,Z0010:1,Z0011:1,Z0012:1,Z0013:1,Z0014:1,Z0015:1,Z0016:1,Z0017:1,Z0018:1,Z0019:1,Z0020:1,Z0021:1,Z0022:1,Z0023:1,Z0024:1,Z0025:1,Z0026:1,Z0027:1,Z0028:1,Z0029:1,Z0030:1,Z0031:1,Z0032:1,Z0033:1,Z0034:1,Z0035:1,Z0036:1,Z0037:1,Z0038:1,Z0039:1,Z0040:1,Z0041:1,Z0042:1,Z0043:1,Z0044:1,Z0045:1,Z0046:1,Z0047:1,Z0048:1,Z0049:1,Z0050:1,Z0051:1,Z0052:1,Z0053:1,Z0054:1,Z0055:1,Z0056:1,Z0057:1,Z0058:1,Z0059:1,Z0060:1,Z0061:1,Z0062:1,Z0063:1,Z0064:1", "note": "", "category": "correctness"}
+{"name": "restart/clean-count-preserved", "status": "pass", "actual": 12, "expected": 12, "note": "", "category": "correctness"}
+{"name": "restart/persisted-hash-links-usable", "status": "pass", "actual": 139, "expected": 139, "note": "", "category": "correctness"}
+{"name": "restart/metadata-drops-reset", "status": "pass", "actual": 0, "expected": 0, "note": "", "category": "correctness"}
+{"name": "restart/reset-timestamp-advanced", "status": "pass", "actual": true, "expected": true, "note": "", "category": "correctness"}
+{"name": "reset/reclaims-capacity", "status": "pass", "actual": "0|0", "expected": "0|0", "note": "", "category": "correctness"}
+{"name": "reset/new-key-counted", "status": "pass", "actual": 7, "expected": 7, "note": "", "category": "correctness"}
+{"name": "crash/counts-discarded", "status": "pass", "actual": 0, "expected": 0, "note": "", "category": "correctness"}
+{"name": "resize/128/old-capacity-saturated", "status": "pass", "actual": 64, "expected": 64, "note": "", "category": "correctness"}
+{"name": "resize/128/new-capacity", "status": "pass", "actual": 128, "expected": 128, "note": "", "category": "correctness"}
+{"name": "resize/128/old-data-discarded", "status": "pass", "actual": 0, "expected": 0, "note": "", "category": "correctness"}
+{"name": "resize/128/new-writes", "status": "pass", "actual": 9, "expected": 9, "note": "", "category": "correctness"}
+{"name": "resize/1024/old-capacity-saturated", "status": "pass", "actual": 128, "expected": 128, "note": "", "category": "correctness"}
+{"name": "resize/1024/new-capacity", "status": "pass", "actual": 1024, "expected": 1024, "note": "", "category": "correctness"}
+{"name": "resize/1024/old-data-discarded", "status": "pass", "actual": 0, "expected": 0, "note": "", "category": "correctness"}
+{"name": "resize/1024/new-writes", "status": "pass", "actual": 9, "expected": 9, "note": "", "category": "correctness"}
+{"name": "resize/64/old-capacity-saturated", "status": "pass", "actual": 1024, "expected": 1024, "note": "", "category": "correctness"}
+{"name": "resize/64/new-capacity", "status": "pass", "actual": 64, "expected": 64, "note": "", "category": "correctness"}
+{"name": "resize/64/old-data-discarded", "status": "pass", "actual": 0, "expected": 0, "note": "", "category": "correctness"}
+{"name": "resize/64/new-writes", "status": "pass", "actual": 9, "expected": 9, "note": "", "category": "correctness"}
+{"name": "concurrent-capacity/slots", "status": "pass", "actual": 64, "expected": 64, "note": "", "category": "correctness"}
+{"name": "concurrent-capacity/drops", "status": "pass", "actual": 736, "expected": 736, "note": "", "category": "correctness"}
+{"name": "concurrent-capacity/conservation", "status": "pass", "actual": 800, "expected": 800, "note": "", "category": "correctness"}
+{"name": "concurrent-capacity/no-duplicate-keys", "status": "pass", "actual": 0, "expected": 0, "note": "", "category": "correctness"}
+{"name": "concurrent-reset/bounded-surviving-count", "status": "pass", "actual": true, "expected": true, "note": "No exact count claimed across resets; operations must finish without crash/deadlock.", "category": "correctness"}
+{"name": "concurrent-reset/post-race-integrity", "status": "pass", "actual": 17, "expected": 17, "note": "", "category": "correctness"}
+{"name": "hook/campaign_hook_probe,pg_stat_log/on/forwards", "status": "pass", "actual": "1", "expected": "1", "note": "", "category": "correctness"}
+{"name": "hook/campaign_hook_probe,pg_stat_log/on/count", "status": "pass", "actual": 1, "expected": 1, "note": "", "category": "correctness"}
+{"name": "hook/campaign_hook_probe,pg_stat_log/off/forwards", "status": "pass", "actual": "1", "expected": "1", "note": "", "category": "correctness"}
+{"name": "hook/campaign_hook_probe,pg_stat_log/off/count", "status": "pass", "actual": 0, "expected": 0, "note": "", "category": "correctness"}
+{"name": "hook/campaign_hook_probe,pg_stat_log/filtered/forwards", "status": "pass", "actual": "1", "expected": "1", "note": "", "category": "correctness"}
+{"name": "hook/campaign_hook_probe,pg_stat_log/filtered/count", "status": "pass", "actual": 0, "expected": 0, "note": "", "category": "correctness"}
+{"name": "hook/campaign_hook_probe,pg_stat_log/nested/forwards", "status": "fail", "actual": "1", "expected": "2", "note": "Candidate integration limitation: reentrant callbacks may be skipped by recursion guard.", "category": "hook-contract"}
+{"name": "hook/campaign_hook_probe,pg_stat_log/nested/outer-count", "status": "pass", "actual": 1, "expected": 1, "note": "", "category": "correctness"}
+{"name": "hook/campaign_hook_probe,pg_stat_log/nested/inner-count", "status": "fail", "actual": 0, "expected": 1, "note": "Both warnings reach server log; guarded nested warning may be intentionally uncounted.", "category": "hook-contract"}
+{"name": "hook/campaign_hook_probe,pg_stat_log/suppressed/not-logged", "status": "pass", "actual": false, "expected": false, "note": "", "category": "correctness"}
+{"name": "hook/campaign_hook_probe,pg_stat_log/suppressed/not-counted", "status": "fail", "actual": 1, "expected": 0, "note": "Candidate contract mismatch: pg_stat_log counts hook events even when another hook suppresses server output.", "category": "hook-contract"}
+{"name": "hook/pg_stat_log,campaign_hook_probe/on/forwards", "status": "pass", "actual": "1", "expected": "1", "note": "", "category": "correctness"}
+{"name": "hook/pg_stat_log,campaign_hook_probe/on/count", "status": "pass", "actual": 1, "expected": 1, "note": "", "category": "correctness"}
+{"name": "hook/pg_stat_log,campaign_hook_probe/off/forwards", "status": "pass", "actual": "1", "expected": "1", "note": "", "category": "correctness"}
+{"name": "hook/pg_stat_log,campaign_hook_probe/off/count", "status": "pass", "actual": 0, "expected": 0, "note": "", "category": "correctness"}
+{"name": "hook/pg_stat_log,campaign_hook_probe/filtered/forwards", "status": "pass", "actual": "1", "expected": "1", "note": "", "category": "correctness"}
+{"name": "hook/pg_stat_log,campaign_hook_probe/filtered/count", "status": "pass", "actual": 0, "expected": 0, "note": "", "category": "correctness"}
+{"name": "hook/pg_stat_log,campaign_hook_probe/nested/forwards", "status": "pass", "actual": "2", "expected": "2", "note": "Candidate integration limitation: reentrant callbacks may be skipped by recursion guard.", "category": "hook-contract"}
+{"name": "hook/pg_stat_log,campaign_hook_probe/nested/outer-count", "status": "pass", "actual": 1, "expected": 1, "note": "", "category": "correctness"}
+{"name": "hook/pg_stat_log,campaign_hook_probe/nested/inner-count", "status": "pass", "actual": 1, "expected": 1, "note": "Both warnings reach server log; guarded nested warning may be intentionally uncounted.", "category": "hook-contract"}
+{"name": "hook/pg_stat_log,campaign_hook_probe/suppressed/not-logged", "status": "pass", "actual": false, "expected": false, "note": "", "category": "correctness"}
+{"name": "hook/pg_stat_log,campaign_hook_probe/suppressed/not-counted", "status": "fail", "actual": 1, "expected": 0, "note": "Candidate contract mismatch: pg_stat_log counts hook events even when another hook suppresses server output.", "category": "hook-contract"}
