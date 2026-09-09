@@ -95,6 +95,23 @@ class ReportValidity(unittest.TestCase):
         self.assertIn('SUPPLIED MATRICES COMPLETE', self.html)
         self.assertTrue((self.output / 'synthetic-only-comparisons.csv').is_file())
 
+    def test_completed_explicit_pilot_keeps_confirmation_pending(self):
+        for phase_container in ('arguments', 'preregistration', 'prereg'):
+            with self.subTest(phase_container=phase_container):
+                self.valid_fixture()
+                path = self.matrix / 'plan.json'
+                plan = json.loads(path.read_text())
+                plan.setdefault(phase_container, {})['phase'] = 'pilot'
+                self.write('plan.json', plan)
+                manifest = self.generate()
+                self.assertEqual(manifest['matrices'][0]['state'], 'COMPLETE')
+                self.assertEqual(manifest['benchmark_state'],
+                                 'PILOT COMPLETE — CONFIRMATION PENDING')
+                self.assertIn('PILOT COMPLETE — CONFIRMATION PENDING', self.html)
+                self.assertNotIn('SUPPLIED MATRICES COMPLETE', self.html)
+                self.assertIn('PILOT COMPLETE — CONFIRMATION PENDING',
+                              (self.output / 'hackers-draft.txt').read_text())
+
     def test_missing_measured_trial_is_invalid(self):
         trials, _ = self.valid_fixture()
         self.write('trials.json', trials[:-1])

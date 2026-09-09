@@ -53,6 +53,21 @@ def stats(env, treatment):
       'info', (select row_to_json(i) from pg_stat_log_info() i));""", env))
 
 
+def assert_warning_path(measured, before, after, treatment, workload):
+    if treatment != 'on':
+        return
+    counted = measured['counted_warnings']
+    dropped = measured['dropped_warnings']
+    expected = measured['expected_warnings']
+    if workload == 'full_miss':
+        if (before['info']['num_entries'] != 1024
+                or after['info']['num_entries'] != 1024
+                or counted != 0 or dropped != expected):
+            raise RuntimeError('full-miss path invariant failed')
+    elif counted != expected or dropped != 0:
+        raise RuntimeError('non-full warning path unexpectedly dropped records')
+
+
 def parse_pgbench(text):
     parsed = {}
     for name, pattern in {
@@ -205,6 +220,7 @@ def forge_point():
                'start_unix_ns': start, 'argv': argv, 'before': before, 'after': after,
                'forge_run_id': env['FORGE_RUN_ID'], 'settings_verified': expected}
         write_json(trial_dir / 'result.json', raw)
+        assert_warning_path(measured, before, after, treatment, workload)
         if not exact or measured['failed']:
             raise RuntimeError('deterministic count/transaction assertion failed: ' + str(trial_dir))
         if trial:

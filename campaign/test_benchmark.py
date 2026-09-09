@@ -15,6 +15,32 @@ spec.loader.exec_module(bench)
 
 
 class BenchmarkChecks(unittest.TestCase):
+    def test_full_miss_cannot_pass_via_counted_path(self):
+        snapshot = {'info': {'num_entries': 1024}}
+        with self.assertRaisesRegex(RuntimeError, 'full-miss path'):
+            bench.assert_warning_path({'counted_warnings': 10,
+                'dropped_warnings': 0, 'expected_warnings': 10},
+                snapshot, snapshot, 'on', 'full_miss')
+
+    def test_full_miss_requires_saturated_snapshots(self):
+        with self.assertRaisesRegex(RuntimeError, 'full-miss path'):
+            bench.assert_warning_path({'counted_warnings': 0,
+                'dropped_warnings': 10, 'expected_warnings': 10},
+                {'info': {'num_entries': 0}}, {'info': {'num_entries': 1024}},
+                'on', 'full_miss')
+
+    def test_nonfull_cannot_pass_via_dropped_path(self):
+        with self.assertRaisesRegex(RuntimeError, 'non-full warning path'):
+            bench.assert_warning_path({'counted_warnings': 0,
+                'dropped_warnings': 10, 'expected_warnings': 10},
+                {}, {}, 'on', 'hot')
+
+    def test_valid_full_miss_path(self):
+        snapshot = {'info': {'num_entries': 1024}}
+        bench.assert_warning_path({'counted_warnings': 0,
+            'dropped_warnings': 10, 'expected_warnings': 10},
+            snapshot, snapshot, 'on', 'full_miss')
+
     def test_reader_failure_is_rejected(self):
         with tempfile.TemporaryDirectory() as directory:
             with self.assertRaisesRegex(RuntimeError, 'reader failed'):

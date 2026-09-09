@@ -165,7 +165,15 @@ def main():
     for suite in suites:
         total.update(suite['counts'])
     now = datetime.datetime.now(datetime.timezone.utc).strftime('%Y-%m-%d %H:%M UTC')
+    def explicitly_pilot(matrix):
+        plan = matrix['plan']
+        phases = [plan.get(container, {}).get('phase')
+                  for container in ('arguments', 'preregistration', 'prereg')]
+        declared = [phase for phase in phases if phase is not None]
+        return bool(declared) and all(phase == 'pilot' for phase in declared)
     status = 'BENCHMARKS PENDING' if not benches else ('SUPPLIED MATRICES COMPLETE' if all(b['state']=='COMPLETE' for b in benches) else 'BENCHMARKS INCOMPLETE')
+    if benches and all(b['state'] == 'COMPLETE' and explicitly_pilot(b) for b in benches):
+        status = 'PILOT COMPLETE — CONFIRMATION PENDING'
     overview = f"{total['pass']} passed assertions; {total['fail']} discrepancy assertions grouped into {len(discrepancies)} themes; {total['error']} harness errors."
     corr_rows = [[ESC(s['name']), str(s['counts'].get('pass', 0)), str(s['counts'].get('fail', 0)), str(s['counts'].get('error', 0)), f'<a href="{s["link"]}">Raw assertions</a>'] for s in suites]
     corr = table(['Suite / build', 'Pass', 'Discrepancy', 'Harness error', 'Evidence'], corr_rows) if suites else '<p>No correctness assertion files supplied. Correctness is pending.</p>'
