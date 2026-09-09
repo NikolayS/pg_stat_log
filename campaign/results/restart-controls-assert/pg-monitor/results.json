@@ -1,0 +1,55 @@
+{
+  "assertions": [
+    {
+      "name": "membership-active",
+      "status": "pass",
+      "actual": "t",
+      "expected": "t",
+      "note": "",
+      "category": "correctness"
+    },
+    {
+      "name": "read-allowed",
+      "status": "pass",
+      "actual": [
+        0,
+        "11"
+      ],
+      "expected": [
+        0,
+        "11"
+      ],
+      "note": "",
+      "category": "correctness"
+    },
+    {
+      "name": "reset-denied-sqlstate",
+      "status": "pass",
+      "actual": true,
+      "expected": true,
+      "note": "An arbitrary SQL or connection failure cannot satisfy permission denial.",
+      "category": "correctness"
+    },
+    {
+      "name": "reset-denied-message",
+      "status": "pass",
+      "actual": true,
+      "expected": true,
+      "note": "",
+      "category": "correctness"
+    },
+    {
+      "name": "counter-not-reset",
+      "status": "pass",
+      "actual": 11,
+      "expected": 11,
+      "note": "",
+      "category": "correctness"
+    }
+  ],
+  "summary": {
+    "pass": 5,
+    "fail": 0,
+    "error": 0
+  }
+}

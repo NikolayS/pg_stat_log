@@ -1,0 +1,81 @@
+{
+  "assertions": [
+    {
+      "name": "initial-capacity",
+      "status": "pass",
+      "actual": 64,
+      "expected": 64,
+      "note": "",
+      "category": "correctness"
+    },
+    {
+      "name": "core-counter-established",
+      "status": "pass",
+      "actual": 100,
+      "expected": 100,
+      "note": "",
+      "category": "correctness"
+    },
+    {
+      "name": "extension-counter-established",
+      "status": "pass",
+      "actual": 7,
+      "expected": 7,
+      "note": "",
+      "category": "correctness"
+    },
+    {
+      "name": "capacity-after",
+      "status": "pass",
+      "actual": 64,
+      "expected": 64,
+      "note": "",
+      "category": "correctness"
+    },
+    {
+      "name": "core-counter-after",
+      "status": "pass",
+      "actual": 100,
+      "expected": 100,
+      "note": "Desired contract: unrelated table counters survive a clean restart. A changed-capacity loss remains a failed expectation, not a pass.",
+      "category": "persistence-contract"
+    },
+    {
+      "name": "extension-counter-after",
+      "status": "pass",
+      "actual": 7,
+      "expected": 7,
+      "note": "Same-size clean restart preserves counts; changed-size restore discards them.",
+      "category": "correctness"
+    },
+    {
+      "name": "extension-counter-new-writes",
+      "status": "pass",
+      "actual": 12,
+      "expected": 12,
+      "note": "",
+      "category": "correctness"
+    },
+    {
+      "name": "second-restart-capacity",
+      "status": "pass",
+      "actual": 64,
+      "expected": 64,
+      "note": "",
+      "category": "correctness"
+    },
+    {
+      "name": "second-restart-extension-counter",
+      "status": "pass",
+      "actual": 12,
+      "expected": 12,
+      "note": "",
+      "category": "correctness"
+    }
+  ],
+  "summary": {
+    "pass": 9,
+    "fail": 0,
+    "error": 0
+  }
+}

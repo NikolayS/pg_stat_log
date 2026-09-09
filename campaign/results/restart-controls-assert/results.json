@@ -1,0 +1,331 @@
+{
+  "assertions": [
+    {
+      "name": "same-64-64/initial-capacity",
+      "status": "pass",
+      "actual": 64,
+      "expected": 64,
+      "note": "",
+      "category": "correctness"
+    },
+    {
+      "name": "same-64-64/core-counter-established",
+      "status": "pass",
+      "actual": 100,
+      "expected": 100,
+      "note": "",
+      "category": "correctness"
+    },
+    {
+      "name": "same-64-64/extension-counter-established",
+      "status": "pass",
+      "actual": 7,
+      "expected": 7,
+      "note": "",
+      "category": "correctness"
+    },
+    {
+      "name": "same-64-64/capacity-after",
+      "status": "pass",
+      "actual": 64,
+      "expected": 64,
+      "note": "",
+      "category": "correctness"
+    },
+    {
+      "name": "same-64-64/core-counter-after",
+      "status": "pass",
+      "actual": 100,
+      "expected": 100,
+      "note": "Desired contract: unrelated table counters survive a clean restart. A changed-capacity loss remains a failed expectation, not a pass.",
+      "category": "persistence-contract"
+    },
+    {
+      "name": "same-64-64/extension-counter-after",
+      "status": "pass",
+      "actual": 7,
+      "expected": 7,
+      "note": "Same-size clean restart preserves counts; changed-size restore discards them.",
+      "category": "correctness"
+    },
+    {
+      "name": "same-64-64/extension-counter-new-writes",
+      "status": "pass",
+      "actual": 12,
+      "expected": 12,
+      "note": "",
+      "category": "correctness"
+    },
+    {
+      "name": "same-64-64/second-restart-capacity",
+      "status": "pass",
+      "actual": 64,
+      "expected": 64,
+      "note": "",
+      "category": "correctness"
+    },
+    {
+      "name": "same-64-64/second-restart-extension-counter",
+      "status": "pass",
+      "actual": 12,
+      "expected": 12,
+      "note": "",
+      "category": "correctness"
+    },
+    {
+      "name": "grow-64-128/initial-capacity",
+      "status": "pass",
+      "actual": 64,
+      "expected": 64,
+      "note": "",
+      "category": "correctness"
+    },
+    {
+      "name": "grow-64-128/core-counter-established",
+      "status": "pass",
+      "actual": 100,
+      "expected": 100,
+      "note": "",
+      "category": "correctness"
+    },
+    {
+      "name": "grow-64-128/extension-counter-established",
+      "status": "pass",
+      "actual": 7,
+      "expected": 7,
+      "note": "",
+      "category": "correctness"
+    },
+    {
+      "name": "grow-64-128/capacity-after",
+      "status": "pass",
+      "actual": 128,
+      "expected": 128,
+      "note": "",
+      "category": "correctness"
+    },
+    {
+      "name": "grow-64-128/core-counter-after",
+      "status": "fail",
+      "actual": 0,
+      "expected": 100,
+      "note": "Desired contract: unrelated table counters survive a clean restart. A changed-capacity loss remains a failed expectation, not a pass.",
+      "category": "persistence-contract"
+    },
+    {
+      "name": "grow-64-128/extension-counter-after",
+      "status": "pass",
+      "actual": 0,
+      "expected": 0,
+      "note": "Same-size clean restart preserves counts; changed-size restore discards them.",
+      "category": "correctness"
+    },
+    {
+      "name": "grow-64-128/extension-counter-new-writes",
+      "status": "pass",
+      "actual": 5,
+      "expected": 5,
+      "note": "",
+      "category": "correctness"
+    },
+    {
+      "name": "grow-64-128/second-restart-capacity",
+      "status": "pass",
+      "actual": 128,
+      "expected": 128,
+      "note": "",
+      "category": "correctness"
+    },
+    {
+      "name": "grow-64-128/second-restart-extension-counter",
+      "status": "pass",
+      "actual": 5,
+      "expected": 5,
+      "note": "",
+      "category": "correctness"
+    },
+    {
+      "name": "shrink-128-64/initial-capacity",
+      "status": "pass",
+      "actual": 128,
+      "expected": 128,
+      "note": "",
+      "category": "correctness"
+    },
+    {
+      "name": "shrink-128-64/core-counter-established",
+      "status": "pass",
+      "actual": 100,
+      "expected": 100,
+      "note": "",
+      "category": "correctness"
+    },
+    {
+      "name": "shrink-128-64/extension-counter-established",
+      "status": "pass",
+      "actual": 7,
+      "expected": 7,
+      "note": "",
+      "category": "correctness"
+    },
+    {
+      "name": "shrink-128-64/capacity-after",
+      "status": "pass",
+      "actual": 64,
+      "expected": 64,
+      "note": "",
+      "category": "correctness"
+    },
+    {
+      "name": "shrink-128-64/core-counter-after",
+      "status": "fail",
+      "actual": 0,
+      "expected": 100,
+      "note": "Desired contract: unrelated table counters survive a clean restart. A changed-capacity loss remains a failed expectation, not a pass.",
+      "category": "persistence-contract"
+    },
+    {
+      "name": "shrink-128-64/extension-counter-after",
+      "status": "pass",
+      "actual": 0,
+      "expected": 0,
+      "note": "Same-size clean restart preserves counts; changed-size restore discards them.",
+      "category": "correctness"
+    },
+    {
+      "name": "shrink-128-64/extension-counter-new-writes",
+      "status": "pass",
+      "actual": 5,
+      "expected": 5,
+      "note": "",
+      "category": "correctness"
+    },
+    {
+      "name": "shrink-128-64/second-restart-capacity",
+      "status": "pass",
+      "actual": 64,
+      "expected": 64,
+      "note": "",
+      "category": "correctness"
+    },
+    {
+      "name": "shrink-128-64/second-restart-extension-counter",
+      "status": "pass",
+      "actual": 5,
+      "expected": 5,
+      "note": "",
+      "category": "correctness"
+    },
+    {
+      "name": "pg-monitor/membership-active",
+      "status": "pass",
+      "actual": "t",
+      "expected": "t",
+      "note": "",
+      "category": "correctness"
+    },
+    {
+      "name": "pg-monitor/read-allowed",
+      "status": "pass",
+      "actual": [
+        0,
+        "11"
+      ],
+      "expected": [
+        0,
+        "11"
+      ],
+      "note": "",
+      "category": "correctness"
+    },
+    {
+      "name": "pg-monitor/reset-denied-sqlstate",
+      "status": "pass",
+      "actual": true,
+      "expected": true,
+      "note": "An arbitrary SQL or connection failure cannot satisfy permission denial.",
+      "category": "correctness"
+    },
+    {
+      "name": "pg-monitor/reset-denied-message",
+      "status": "pass",
+      "actual": true,
+      "expected": true,
+      "note": "",
+      "category": "correctness"
+    },
+    {
+      "name": "pg-monitor/counter-not-reset",
+      "status": "pass",
+      "actual": 11,
+      "expected": 11,
+      "note": "",
+      "category": "correctness"
+    }
+  ],
+  "cases": {
+    "same-64-64": {
+      "status": "completed",
+      "expected_assertions": [
+        "initial-capacity",
+        "core-counter-established",
+        "extension-counter-established",
+        "capacity-after",
+        "core-counter-after",
+        "extension-counter-after",
+        "extension-counter-new-writes",
+        "second-restart-capacity",
+        "second-restart-extension-counter"
+      ]
+    },
+    "grow-64-128": {
+      "status": "completed",
+      "expected_assertions": [
+        "initial-capacity",
+        "core-counter-established",
+        "extension-counter-established",
+        "capacity-after",
+        "core-counter-after",
+        "extension-counter-after",
+        "extension-counter-new-writes",
+        "second-restart-capacity",
+        "second-restart-extension-counter"
+      ]
+    },
+    "shrink-128-64": {
+      "status": "completed",
+      "expected_assertions": [
+        "initial-capacity",
+        "core-counter-established",
+        "extension-counter-established",
+        "capacity-after",
+        "core-counter-after",
+        "extension-counter-after",
+        "extension-counter-new-writes",
+        "second-restart-capacity",
+        "second-restart-extension-counter"
+      ]
+    },
+    "pg-monitor": {
+      "status": "completed",
+      "expected_assertions": [
+        "membership-active",
+        "read-allowed",
+        "reset-denied-sqlstate",
+        "reset-denied-message",
+        "counter-not-reset"
+      ]
+    }
+  },
+  "provenance": {
+    "pg_bin": "/home/bench/pg-assert/bin",
+    "script_sha256": "aba408d061264c6e3b4f876483a35d0e9b9bf0e6289a3208b5ceff50a58524a9",
+    "campaign_sha256": "ffa93d0d66757a0f3a9d905da000a9d22e822dcd5603450ebff5477f868e6180"
+  },
+  "summary": {
+    "pass": 30,
+    "fail": 2,
+    "error": 0,
+    "not_run": 0
+  }
+}

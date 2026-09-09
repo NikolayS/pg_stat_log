@@ -108,3 +108,11 @@ After inserting 100 rows into an ordinary table and verifying `pg_stat_user_tabl
 ### Boundary-test oracle correction
 
 The first extra harness incorrectly assumed invalid custom preload GUC values must make startup fail. PostgreSQL can instead log an out-of-range warning and retain the GUC's declared default. Reusing one cluster also mixed capacity transitions into boundary checks. The revised `--only-boundary` mode gives each of 63, 64, 1,048,576 and 1,048,577 a **fresh initdb**; checks startup logs and actual `SHOW`; and accepts explicit rejection or warned default fallback for invalid values. Original failed-run artifacts are retained rather than relabelled. The operational run above excludes this boundary phase. Any crash investigation from the earlier reused-cluster run is tracked separately; it must not be misreported as ordinary rejection of an invalid GUC value.
+
+## Fresh controls and startup backtrace (Max takeover)
+
+Issue [#10](https://github.com/NikolayS/pg_stat_log/issues/10) records the controlled comparison: same64→64 retains ordinarytable100counter;64→128 and128→64 reset it to0. All32 controls ran:30pass,two failed preservation expectations; pg_monitor read/reset authorization tests pass.
+
+The recovered large1048576→64 shutdown/restart logs show SIGSEGV in optimized and assertion builds. A fresh assertion-build reproduction records the same startup failure and a debugger backtrace at `pg_stat_log_count_message():374`, invoked while core reports a statsfile-restore warning. See `results/resize-repro-assert/backtrace.txt`. The observed path is counting, not proof that the separately identified reset-callback bounds concern caused this particular crash.
+
+Fresh capacity-boundary suite passes all10 assertions. All maximum values were set through ordinary configuration; no arbitrary memory or persisted-file corruption was injected. These fresh results supersede earlier local-evidence gaps noted in the audit.

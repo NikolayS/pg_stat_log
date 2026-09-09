@@ -28,3 +28,11 @@ python3 campaign/report.py --results campaign/results --output docs/brief --gate
 ## Remaining handoff
 
 Rerender after final matrices and operational suites arrive. Supply the verified build-gate ledger if upstream/contrib pass claims should appear. Review final plots against JSON, inspect mobile at a true emulated viewport, check source/evidence links on the published Pages URL, and only then treat delivery as verified. A complete matrix is not necessarily a complete research agenda; compare executed arguments with PLAN.md and disclose deferred experiments.
+
+## Fresh-evidence follow-up (2026-09-09 06:06 UTC)
+
+- Additional supplied restart controls, startup-boundary and large-resize suites now render 323 passed assertions / 44 discrepancy assertions in **6 themes**. Both `/core-counter-after` controls join the existing unrelated-core-counter theme. Three large-resize restart failures join one startup-crash theme linked to issue #10.
+- Local gate assets are now copied into the output and SHA-256 manifest, including compressed core and external logs and the contrib check log. Missing/empty/path-escaping local assets downgrade a reported pass to `unknown`, preserve `reported_status`, and remove the broken link. This behavior was tested with a disposable missing-file fixture. External HTTPS references remain supplied ledger references, not network-verified by the generator.
+- Correctness companions (compressed server/command logs, version, backtrace) are exported and linked in an evidence-files disclosure. All 52 local href/src targets in the fresh generated preview exist (the count can grow with new evidence).
+- A true Chromium DevTools **390 × 844 mobile emulation** now verifies `innerWidth == document.documentElement.scrollWidth == 390` with the report fully loaded. Screenshot `report-mobile.png` was visually inspected: heading, navigation, status and summary wrap cleanly, with no horizontal page overflow. This supersedes the earlier inconclusive headless-window capture. It is a local preview check, not a verification of the final published URL.
+- The preserved failed RemoveIPC pilot is correctly displayed as partial/not validated, not headline successful benchmarking. Completion still describes supplied schedules, not the whole research agenda.

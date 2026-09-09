@@ -8,6 +8,7 @@ import hashlib
 import html
 import json
 import math
+import re
 from pathlib import Path
 
 ROOT = "https://github.com/NikolayS/pg_stat_log"
@@ -26,8 +27,10 @@ def family(row):
         return "Nested hook forwarding/counting" if "/nested/" in name else "Hook-suppressed event accounting"
     if name == "parallel/worker-attribution":
         return "Parallel worker labeling"
-    if name == "resize/unrelated-core-stats-preserved":
+    if name == "resize/unrelated-core-stats-preserved" or name.endswith("/core-counter-after"):
         return "Capacity change and unrelated core counters"
+    if name == "restart-success" and row.get("category") == "restart-contract":
+        return "Large capacity change: startup crash"
     return name
 
 
@@ -122,6 +125,9 @@ def main():
             continue
         counts = collections.Counter(row.get('status', 'unknown') for row in data['assertions'])
         link = export(path)
+        for companion in sorted(path.parent.iterdir()):
+            if companion.name in ['backtrace.txt', 'version.txt', 'server.log.gz', 'commands.jsonl.gz'] and companion.is_file():
+                export(companion)
         suites.append(dict(name=path.parent.name, counts=dict(counts), link=link, assertions=data['assertions']))
         for row in data['assertions']:
             if row.get('status') == 'fail':
@@ -134,6 +140,24 @@ def main():
                 export(d/name)
     gates = read(args.gates, []) if args.gates else []
     for gate in gates:
+        gate['note'] = re.sub(r'\band(?=\d)', 'and ', gate.get('note', ''))
+        evidence = gate.get('evidence', '')
+        if evidence.startswith('evidence/'):
+            source = args.results / evidence[len('evidence/'):]
+            if source.resolve().is_relative_to(args.results.resolve()) and source.is_file() and source.stat().st_size:
+                export(source)
+                gate['evidence_available'] = True
+            else:
+                gate['reported_status'] = gate.get('status')
+                gate['status'] = 'unknown'
+                gate['evidence_available'] = False
+                gate['note'] += ' Evidence file missing or empty; the reported outcome is not validated by this brief.'
+                gate.pop('evidence', None)
+        elif not evidence.startswith('https://'):
+            gate['reported_status'] = gate.get('status')
+            gate['status'] = 'unknown'
+            gate['note'] += ' No supported evidence link supplied.'
+            gate.pop('evidence', None)
         if gate.get('status') not in ['pass', 'fail', 'error', 'not_run']:
             gate['status'] = 'unknown'
     (args.output/'build-gates.json').write_text(json.dumps(gates, indent=2)+'\n')
@@ -149,6 +173,8 @@ def main():
     for name, occurrences in discrepancies.items():
         unique = len({r['name'] for r in occurrences})
         findings += f'<details><summary>{ESC(name)} <small>— {len(occurrences)} failed assertions; {unique} unique checks</small></summary><p>Grouping is for readability, not a claim of {len(occurrences)} separate defects or a proven common root cause.</p>'
+        if name == 'Large capacity change: startup crash':
+            findings += '<p><a href="https://github.com/NikolayS/pg_stat_log/issues/10">Crash reproducer and investigation: issue #10</a>. Repeated release/assertion reproductions are one observed failure theme, not three independent bugs.</p>'
         findings += table(['Suite', 'Assertion', 'Actual', 'Expected', 'Interpretation'], [[ESC(r['suite']), ESC(r['name']), ESC(json.dumps(r.get('actual'))), ESC(json.dumps(r.get('expected'))), ESC(r.get('note', ''))] for r in occurrences])+'</details>'
     gate_html = table(['Recorded build/test gate', 'Status', 'Evidence / qualification'], [[ESC(g.get('name', 'unnamed')), ESC(g['status'].upper()), (f'<a href="{ESC(g["evidence"])}">Evidence</a> ' if g.get('evidence', '').startswith(('https://', 'evidence/')) else '')+ESC(g.get('note', ''))] for g in gates]) if gates else '<p class="notice">Core regression, upstream PGXS/TAP, and submitted contrib build/check results are not asserted here: no structured gate ledger was supplied. See tracking issue and build logs. Missing evidence is not a pass.</p>'
     bench_html = ''
@@ -178,8 +204,11 @@ def main():
     for b in benches:
         p=b['plan']
         pins.append(f'<li>{ESC(b["name"])}: Postgres <code>{ESC(p.get("postgres_sha", "unknown"))}</code>; extension <code>{ESC(p.get("extension_sha", "unknown"))}</code>; Forge <code>{ESC(p.get("forge_sha", "unknown"))}</code>.</li>')
+    evidence_links = '<details><summary>Download evidence files and build logs</summary><ul>' + ''.join(f'<li><a href="{ESC(item["path"])}">{ESC(item["path"])}</a> ({item["bytes"]:,} bytes)</li>' for item in artifacts) + '</ul></details>'
     provenance = '<ul>'+''.join(pins)+'</ul>' if pins else '<p>Benchmark-executed source and binary pins are pending. Intended revisions and external-versus-contrib source comparison are documented in <a href="'+ROOT+'/blob/testing/master-forge-20260909/campaign/RESEARCH.md">research notes</a>; intended pins are not proof that a build ran.</p>'
     draft = f"Subject: pg_stat_log: independent master testing and benchmark evidence\n\nI tested pg_stat_log for the contrib discussion. This report is not an argument that performance alone determines contrib placement.\n\n{overview} Repeated checks across builds are not separate defects. See the HTML brief and raw assertion JSON for expected/actual values, build labels, and contract qualifications.\n\nBenchmark status: {status}. " + ("See per-matrix valid-run ledgers, exact binary/source pins, every retained trial, and paired-block uncertainty in the brief. " if benches else "No completed timing evidence is supplied in this report yet. ") + "\n\nQuestions for reviewers: should LOG follow server-log ordering? What is the contract for nested/suppressed emit-hook events and parallel worker labels? Should a capacity change preserve unrelated core cumulative counters? These questions must be read alongside their precise reproduced assertions, not as unqualified crash or data-loss claims.\n\nLimitations: one VM, co-located closed-loop clients, finite correctness cases, and limited independent timing blocks. No blanket production or memory-safety certification is implied.\n"
+    if 'Large capacity change: startup crash' in discrepancies:
+        draft += '\nThe supplied large-resize suites reproduce a startup failure; see issue #10 and the exported backtrace. Multiple build reproductions are grouped as one failure theme.\n'
     (args.output/'hackers-draft.txt').write_text(draft)
     manifest = dict(generated_utc=now, correctness_summary=dict(total), discrepancy_themes=len(discrepancies), benchmark_state=status, matrices=[{k:b[k] for k in ['name','state','expected_runs','expected_trials','invalid_runs','invalid_trials']} for b in benches], gates=gates, artifacts=artifacts)
     (args.output/'evidence-manifest.json').write_text(json.dumps(manifest, indent=2)+'\n')
@@ -191,7 +220,7 @@ def main():
 <section id="findings"><h2>Correctness and operational coverage</h2>{corr}<h3>Observed discrepancy themes</h3>{findings or '<p>No recorded discrepancy assertions. This does not mean unexecuted cases passed.</p>'}<h3>Upstream and submitted build gates</h3>{gate_html}<p><a href="build-gates.json">Recorded build-gate ledger</a></p><p>Coverage includes only the named supplied suites. Expand the JSON for every positive and negative assertion. Additional release/assert builds, sanitizers, platforms or scenarios are not implied by a pass in one suite.</p></section>
 <section id="performance"><h2>Performance evidence</h2><p>Matrix completion describes the supplied schedules, not every experiment proposed in the research plan. Deferred experiments must be disclosed separately.</p>{bench_html}</section>
 <section id="methods"><h2>Method and interpretation</h2><ul><li><strong>Controlled treatment:</strong> compare no preload, preload disabled, and enabled states with identical SQL, logging floor, destination and client schedule. Enabled-but-filtered and contention/saturation arms are distinct experiments. See executed arguments; planned arms must not be mistaken for completed ones.</li><li><strong>Pair within randomized blocks:</strong> take each treatment/baseline ratio from the same block, using medians of timed subtrials after excluded warmups. Aggregate block ratios geometrically. The experimental unit is the paired block, not a transaction or each subtrial.</li><li><strong>Uncertainty:</strong> tables and plots use Student-t intervals on paired block log ratios. Paired-block bootstrap intervals are retained in summary JSON. Small block counts limit precision; intervals are per comparison, not simultaneous family-wise bounds. An interval spanning zero loss neither proves a slowdown nor equivalence.</li><li><strong>Validity before speed:</strong> native Forge status, unchanged restart state, successful steps and exact warning-accounting claims must validate each run. The report requires scheduled-run identities and measured-trial counts to match. Forge validity is not a performance verdict or proof of bottleneck absence.</li><li><strong>Real log storage:</strong> primary file-sink timing must retain actual stderr logging. A devnull sensitivity experiment excludes storage and must be labeled separately, never presented as production logging performance.</li><li><strong>Build and host:</strong> timing uses optimized, non-assert binaries; assertion builds serve correctness. Exact configure flags, binary hashes, hardware and tool pins are in the plan and hardware artifacts. One virtualized host is not a cross-platform result.</li><li><strong>Limits:</strong> co-located closed-loop pgbench clients may limit CPU; file-log contention and virtualization may dominate. This is not open-loop p99/SLO measurement, production replay, exhaustive fault injection, or proof of memory safety.</li></ul></section>
-<section id="provenance"><h2>Provenance and reproducibility</h2>{provenance}<p><a href="evidence-manifest.json">Artifact SHA-256 manifest and status ledger</a> · <a href="{ROOT}/tree/testing/master-forge-20260909/campaign">Harness and campaign methods</a> · <a href="{ROOT}/blob/testing/master-forge-20260909/campaign/RESEARCH.md">Source comparison and research</a></p><p>The external extension and submitted v1 contrib patch have a source comparison in the research notes. Common hot paths do not substitute for a separate native in-tree build/check gate. Earlier issue findings concern older revisions and are not automatically carried forward.</p></section>
+<section id="provenance"><h2>Provenance and reproducibility</h2>{provenance}{evidence_links}<p><a href="evidence-manifest.json">Artifact SHA-256 manifest and status ledger</a> · <a href="{ROOT}/tree/testing/master-forge-20260909/campaign">Harness and campaign methods</a> · <a href="{ROOT}/blob/testing/master-forge-20260909/campaign/RESEARCH.md">Source comparison and research</a></p><p>The external extension and submitted v1 contrib patch have a source comparison in the research notes. Common hot paths do not substitute for a separate native in-tree build/check gate. Earlier issue findings concern older revisions and are not automatically carried forward.</p></section>
 <section id="discussion"><h2>Ready for technical review, not automatic endorsement</h2><p>Performance evidence can inform contrib placement but cannot decide whether the capability belongs in core. The source session summary/timecodes and mailing-list thread were studied; a full transcript was not available, so no word-for-word video review is claimed.</p><p><a href="hackers-draft.txt">Download evidence-bound -hackers draft</a> · <a href="https://www.postgresql.org/message-id/flat/CABo-N96sjT0KwtCFVBkuMQEAfe-834Sd2zjbv9qKJORXkf=BiA@mail.gmail.com">Active discussion</a></p><details><summary>Draft text — not sent</summary><pre>{ESC(draft)}</pre></details></section><footer class="card"><strong>Reproduce. Challenge. Extend.</strong><p>Negative findings are retained, pending work stays visible, and each reported number traces to a supplied artifact.</p></footer></main></body></html>'''
     (args.output/'index.html').write_text(content)
     (args.output/'.nojekyll').touch()
