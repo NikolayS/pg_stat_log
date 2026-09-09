@@ -15,6 +15,71 @@ spec.loader.exec_module(bench)
 
 
 class BenchmarkChecks(unittest.TestCase):
+    def test_forge_wrong_pin_rejected_before_cleanliness_check(self):
+        with patch.object(bench, 'command', return_value=Mock(stdout='wrong\n')) as run:
+            with self.assertRaisesRegex(RuntimeError, 'Forge.*SHA'):
+                bench.verify_forge(Path('/checkout/bin/forge'))
+            self.assertEqual(run.call_count, 1)
+
+    def test_forge_dirty_tracked_tree_rejected(self):
+        for diff in ['unstaged', 'staged']:
+            with self.subTest(diff=diff):
+                with patch.object(bench, 'command', side_effect=[
+                        Mock(stdout=bench.FORGE_SHA + '\n'),
+                        RuntimeError('tracked diff ' + diff)]):
+                    with self.assertRaisesRegex(RuntimeError, 'tracked diff'):
+                        bench.verify_forge(Path('/checkout/bin/forge'))
+
+    def test_forge_clean_pin_checks_index_and_worktree_against_head(self):
+        with patch.object(bench, 'command', side_effect=[
+                Mock(stdout=bench.FORGE_SHA + '\n'), Mock(stdout='')]) as run:
+            self.assertEqual(bench.verify_forge(Path('/checkout/bin/forge')), bench.FORGE_SHA)
+            self.assertEqual(run.call_args.args[0],
+                             ['git', '-C', Path('/checkout'), 'diff', '--exit-code', 'HEAD'])
+
+    def test_previous_record_is_not_reused_even_when_touched(self):
+        with tempfile.TemporaryDirectory() as directory:
+            runs = Path(directory)
+            old = runs / 'old.json'
+            old.write_text('{}')
+            before = set(runs.iterdir())
+            old.touch()
+            self.assertIsNone(bench.new_native_record(runs, before))
+
+    def test_new_record_selected_without_mtime_ordering(self):
+        with tempfile.TemporaryDirectory() as directory:
+            runs = Path(directory)
+            old = runs / 'old.json'
+            old.write_text('{}')
+            before = set(runs.iterdir())
+            new = runs / 'new.json'
+            new.write_text('{}')
+            (runs / 'new.mint').write_text('{}')
+            os.utime(new, (1, 1))
+            self.assertEqual(bench.new_native_record(runs, before), new)
+
+    def test_record_requires_new_mint_receipt(self):
+        with tempfile.TemporaryDirectory() as directory:
+            runs = Path(directory)
+            receipt = runs / 'new.mint'
+            receipt.write_text('{}')
+            before = set(runs.iterdir())
+            (runs / 'new.json').write_text('{}')
+            with self.assertRaisesRegex(RuntimeError, 'new mint receipt'):
+                bench.new_native_record(runs, before)
+            receipt.unlink()
+            with self.assertRaisesRegex(RuntimeError, 'new mint receipt'):
+                bench.new_native_record(runs, before)
+
+    def test_multiple_new_records_fail_closed(self):
+        with tempfile.TemporaryDirectory() as directory:
+            runs = Path(directory)
+            for name in ['one', 'two']:
+                (runs / (name + '.json')).write_text('{}')
+                (runs / (name + '.mint')).write_text('{}')
+            with self.assertRaisesRegex(RuntimeError, 'multiple new'):
+                bench.new_native_record(runs, set())
+
     def test_full_miss_cannot_pass_via_counted_path(self):
         snapshot = {'info': {'num_entries': 1024}}
         with self.assertRaisesRegex(RuntimeError, 'full-miss path'):

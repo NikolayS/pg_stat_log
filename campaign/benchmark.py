@@ -19,6 +19,7 @@ HERE = Path(__file__).resolve().parent
 TREATMENTS = ['baseline', 'disabled', 'filtered', 'on']
 WORKLOADS = ['quiet', 'hot', 'cardinality', 'full_miss', 'reader', 'readwrite']
 PG_SHA = '86f7c82cf1023e3599f40f939727791a7090cd44'
+FORGE_SHA = 'fc7284fa74a1286fe302c82f3512187b9f4160f0'
 
 
 def command(argv, *, env=None, input=None, check=True, timeout=180):
@@ -32,6 +33,30 @@ def command(argv, *, env=None, input=None, check=True, timeout=180):
 
 def write_json(path, value):
     Path(path).write_text(json.dumps(value, indent=2, sort_keys=True) + '\n')
+
+
+def verify_forge(executable):
+    checkout = executable.resolve().parent.parent
+    observed = command(['git', '-C', checkout, 'rev-parse', 'HEAD']).stdout.strip()
+    if observed != FORGE_SHA:
+        raise RuntimeError('Forge source does not match declared campaign SHA')
+    # HEAD comparison covers staged as well as unstaged tracked changes.
+    command(['git', '-C', checkout, 'diff', '--exit-code', 'HEAD'])
+    return observed
+
+
+def new_native_record(runs, previous_paths):
+    # Never attach a prior successful arm after a preflight or recording failure.
+    candidates = set(runs.glob('*.json')) - previous_paths
+    if not candidates:
+        return None
+    if len(candidates) != 1:
+        raise RuntimeError('Forge invocation produced multiple new native records')
+    record = candidates.pop()
+    receipt = record.with_suffix('.mint')
+    if receipt in previous_paths or not receipt.is_file() or receipt.is_symlink():
+        raise RuntimeError('Forge native record lacks a new mint receipt')
+    return record
 
 
 def sql(text, env=None):
@@ -403,7 +428,7 @@ def main():
     harness_git_sha = command(['git', '-C', HERE.parent, 'rev-parse', 'HEAD']).stdout.strip()
     extension_sha = '0a8b782c0695883a2708ac60ebf32e1a95250952'
     extension_source_sha256 = hashlib.sha256((HERE.parent / 'pg_stat_log.c').read_bytes()).hexdigest()
-    forge_sha = command(['git', '-C', args.forge.resolve().parent.parent, 'rev-parse', 'HEAD']).stdout.strip()
+    forge_sha = verify_forge(args.forge)
     canonical_c = command(['git', '-C', HERE.parent, 'show', extension_sha + ':pg_stat_log.c']).stdout
     if hashlib.sha256(canonical_c.encode()).hexdigest() != extension_source_sha256:
         raise RuntimeError('extension source does not match declared upstream SHA')
@@ -434,7 +459,7 @@ def main():
                 schedule.append({'block': block, 'treatment': treatment,
                                  'workload': workload, 'clients': order})
     write_json(root / 'plan.json', {'postgres_sha': observed_pg_sha, 'postgres_source_tracked_clean': True, 'extension_sha': extension_sha,
-              'forge_sha': forge_sha, 'configure': configure, 'binary_sha256': binary_hashes, 'tool_versions': tool_versions, 'harness_git_sha': harness_git_sha, 'extension_source_sha256': extension_source_sha256, 'driver_sha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest(), 'version': version, 'arguments': vars(args) | {'output': str(root), 'pg_bin': str(args.pg_bin), 'forge': str(args.forge), 'postgres_source': str(postgres_source)},
+              'forge_sha': forge_sha, 'forge_source_tracked_clean': True, 'configure': configure, 'binary_sha256': binary_hashes, 'tool_versions': tool_versions, 'harness_git_sha': harness_git_sha, 'extension_source_sha256': extension_source_sha256, 'driver_sha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest(), 'version': version, 'arguments': vars(args) | {'output': str(root), 'pg_bin': str(args.pg_bin), 'forge': str(args.forge), 'postgres_source': str(postgres_source)},
               'schedule': schedule, 'preregistration': {'phase': args.phase,
               'stopping_rule': 'complete fixed schedule; abort on correctness or operational failure; no significance-based stopping',
               'timed_seconds_lower_bound': len(schedule) * len(clients) * (args.trials * args.duration + args.warmup),
@@ -494,12 +519,13 @@ def main():
                         'FORGE_DELTA': treatment})
             log_path = root / f'arm{number:03d}-forge.log'
             print(f'[{number}/{len(schedule)}] {arm}', flush=True)
+            runs = case / 'runs'
+            previous_paths = set(runs.glob('*'))
             with log_path.open('w') as log:
                 result = subprocess.run([str(args.forge.resolve()), 'case', 'run', config['case_id'],
                                          '--record', '--non-interactive'], env=env, stdout=log, stderr=log,
                                         timeout=(args.trials*args.duration+args.warmup+60)*len(clients)+600)
-            native_records = list((case / 'runs').glob('*.json'))
-            latest_record_path = max(native_records, key=lambda p: p.stat().st_mtime) if native_records else None
+            latest_record_path = new_native_record(runs, previous_paths)
             native_record = json.loads(latest_record_path.read_text()) if latest_record_path else {}
             operationally_valid = (native_record.get('valid') is True
                 and native_record.get('status') == 'passed'
