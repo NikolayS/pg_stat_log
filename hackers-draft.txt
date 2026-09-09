@@ -1,0 +1,13 @@
+Subject: pg_stat_log: independent master testing and benchmark evidence
+
+I tested pg_stat_log for the contrib discussion. This report is not an argument that performance alone determines contrib placement.
+
+323 passed assertions; 44 discrepancy assertions grouped into 6 themes; 0 harness errors. Repeated checks across builds are not separate defects. See the HTML brief and raw assertion JSON for expected/actual values, build labels, and contract qualifications.
+
+Benchmark status: BENCHMARKS PENDING. No completed timing evidence is supplied in this report yet. 
+
+Questions for reviewers: should LOG follow server-log ordering? What is the contract for nested/suppressed emit-hook events and parallel worker labels? Should a capacity change preserve unrelated core cumulative counters? These questions must be read alongside their precise reproduced assertions, not as unqualified crash or data-loss claims.
+
+Limitations: one VM, co-located closed-loop clients, finite correctness cases, and limited independent timing blocks. No blanket production or memory-safety certification is implied.
+
+The supplied large-resize suites reproduce a startup failure; see issue #10 and the exported backtrace. Multiple build reproductions are grouped as one failure theme.

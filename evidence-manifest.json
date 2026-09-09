@@ -1,0 +1,202 @@
+{
+  "generated_utc": "2026-09-09 06:05 UTC",
+  "correctness_summary": {
+    "pass": 323,
+    "fail": 44
+  },
+  "discrepancy_themes": 6,
+  "benchmark_state": "BENCHMARKS PENDING",
+  "matrices": [],
+  "gates": [
+    {
+      "name": "Core regression (assertion build)",
+      "status": "pass",
+      "evidence": "evidence/build-evidence/core-check.log.gz",
+      "note": "240 tests; recovered exact-master build evidence.",
+      "evidence_available": true
+    },
+    {
+      "name": "External extension (optimized)",
+      "status": "pass",
+      "evidence": "evidence/build-evidence/installcheck-release.log.gz",
+      "note": "One SQL regression and 18 TAP tests; optimized build.",
+      "evidence_available": true
+    },
+    {
+      "name": "External extension (assertion)",
+      "status": "pass",
+      "evidence": "evidence/build-evidence/installcheck-assert.log.gz",
+      "note": "One SQL regression and 18 TAP tests; assertion build.",
+      "evidence_available": true
+    },
+    {
+      "name": "Submitted contrib v1",
+      "status": "pass",
+      "evidence": "evidence/build-evidence/contrib-contrib-check.log",
+      "note": "Patch applies/builds; one SQL regression and 18 TAP tests. This is not full adversarial coverage of the contrib variant.",
+      "evidence_available": true
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "evidence/correctness-assert/results.json",
+      "sha256": "815119990a106cfe77e22bb11e3598af5cf11d2d19190a39caea9ce9b2d2e3e1",
+      "bytes": 36033
+    },
+    {
+      "path": "evidence/correctness-assert/commands.jsonl.gz",
+      "sha256": "9490a112b4846d358050038410ea03f9f8bf430ac35626d9e35736169b704266",
+      "bytes": 10395
+    },
+    {
+      "path": "evidence/correctness-assert/server.log.gz",
+      "sha256": "a3b44942963accb08dae3a779602506a866c0816253316541489eeea19a41260",
+      "bytes": 40373
+    },
+    {
+      "path": "evidence/correctness-assert/version.txt",
+      "sha256": "71ca834dbab8b6430d47d9d5a364e452422516d8b9aa280f3399fb933891043c",
+      "bytes": 107
+    },
+    {
+      "path": "evidence/correctness-release/results.json",
+      "sha256": "83fdd2eec5a9a4f453b29b6e5e1808fe10a78fc2594cb732062819b2f0167a5b",
+      "bytes": 35954
+    },
+    {
+      "path": "evidence/correctness-release/commands.jsonl.gz",
+      "sha256": "cd5c55f5f1bbc81e2e237c66cc0ac5cb0b238240f412fe3943da5b8f62f823d5",
+      "bytes": 10136
+    },
+    {
+      "path": "evidence/correctness-release/server.log.gz",
+      "sha256": "02b86b492c27b5d7c90c1988a7de589255b414d9e46a31d07b8e2dc6d3d0180c",
+      "bytes": 35630
+    },
+    {
+      "path": "evidence/correctness-release/version.txt",
+      "sha256": "71ca834dbab8b6430d47d9d5a364e452422516d8b9aa280f3399fb933891043c",
+      "bytes": 107
+    },
+    {
+      "path": "evidence/extra-operational-assert/results.json",
+      "sha256": "24699139d7af8e6b529040d8b6f2b0844bbb23fb01e68336f2045470f033abbf",
+      "bytes": 3201
+    },
+    {
+      "path": "evidence/extra-operational-assert/version.txt",
+      "sha256": "71ca834dbab8b6430d47d9d5a364e452422516d8b9aa280f3399fb933891043c",
+      "bytes": 107
+    },
+    {
+      "path": "evidence/fresh-boundary-assert/results.json",
+      "sha256": "ed02a6c126b1fcfff31a7c24fbc1712b55ccfd61fa979b441a8de2ffb6a7688f",
+      "bytes": 1990
+    },
+    {
+      "path": "evidence/fresh-boundary-assert/commands.jsonl.gz",
+      "sha256": "335e5b0d22bb506a42e0a915f7f88f0cd2dcde6a487f36ebb1b35d5730711a47",
+      "bytes": 966
+    },
+    {
+      "path": "evidence/fresh-boundary-assert/server.log.gz",
+      "sha256": "a3090da38d3199a0bd78dd3fac2c5d7f4fbc280604b5a5576141b2761e4d5dbc",
+      "bytes": 667
+    },
+    {
+      "path": "evidence/fresh-boundary-assert/version.txt",
+      "sha256": "71ca834dbab8b6430d47d9d5a364e452422516d8b9aa280f3399fb933891043c",
+      "bytes": 107
+    },
+    {
+      "path": "evidence/resize-large-assert/results.json",
+      "sha256": "c3cb4fe20d646e9917d3e0c639b4a25cb5d45f1bf3dbbafe3f2f44917e157fba",
+      "bytes": 586
+    },
+    {
+      "path": "evidence/resize-large-assert/commands.jsonl.gz",
+      "sha256": "2aeea2170fb863bdac856a80ef1b684fe1ac39c4041157558e263aff89c35fc0",
+      "bytes": 1284
+    },
+    {
+      "path": "evidence/resize-large-assert/server.log.gz",
+      "sha256": "530c1f4a5976325aa366c4da2b47afc5b4df2a30316a456cc06cf073a0c385b9",
+      "bytes": 1150
+    },
+    {
+      "path": "evidence/resize-large-assert/version.txt",
+      "sha256": "71ca834dbab8b6430d47d9d5a364e452422516d8b9aa280f3399fb933891043c",
+      "bytes": 107
+    },
+    {
+      "path": "evidence/resize-large-release/results.json",
+      "sha256": "c3cb4fe20d646e9917d3e0c639b4a25cb5d45f1bf3dbbafe3f2f44917e157fba",
+      "bytes": 586
+    },
+    {
+      "path": "evidence/resize-large-release/commands.jsonl.gz",
+      "sha256": "8f0bc20bb24c5caee14cbb08c22fc94f2201bf330d00275cbbc66db1e02df288",
+      "bytes": 1280
+    },
+    {
+      "path": "evidence/resize-large-release/server.log.gz",
+      "sha256": "4473521458f2cfa3ac6b4c5a1828403feb35dd4998e11bf2a1076c2adf759a37",
+      "bytes": 1146
+    },
+    {
+      "path": "evidence/resize-large-release/version.txt",
+      "sha256": "71ca834dbab8b6430d47d9d5a364e452422516d8b9aa280f3399fb933891043c",
+      "bytes": 107
+    },
+    {
+      "path": "evidence/resize-repro-assert/results.json",
+      "sha256": "c3cb4fe20d646e9917d3e0c639b4a25cb5d45f1bf3dbbafe3f2f44917e157fba",
+      "bytes": 586
+    },
+    {
+      "path": "evidence/resize-repro-assert/backtrace.txt",
+      "sha256": "e77c10ee4c537f467f19caafcc64ac3234f720b1ae58732a1e88788fe8e349ea",
+      "bytes": 3460
+    },
+    {
+      "path": "evidence/resize-repro-assert/commands.jsonl.gz",
+      "sha256": "d0d4e8768239ee50d632c1083bd6f3c756c3642c0a3d3a37b155ec260ed6f278",
+      "bytes": 1276
+    },
+    {
+      "path": "evidence/resize-repro-assert/server.log.gz",
+      "sha256": "336bfc41a646396571cbb34efc8e884b7280548c2d05edb3cf99c16f56f6cb3f",
+      "bytes": 1142
+    },
+    {
+      "path": "evidence/resize-repro-assert/version.txt",
+      "sha256": "71ca834dbab8b6430d47d9d5a364e452422516d8b9aa280f3399fb933891043c",
+      "bytes": 107
+    },
+    {
+      "path": "evidence/restart-controls-assert/results.json",
+      "sha256": "3f3eaf35e998b8d328c8b99902b65ec601126e606ca43d97c406965032a27d74",
+      "bytes": 8438
+    },
+    {
+      "path": "evidence/build-evidence/core-check.log.gz",
+      "sha256": "b24f3f3f2a0e6e984c6ba2438fd1b77eabc4c9eb24429b2775835d33663dc8a6",
+      "bytes": 4552
+    },
+    {
+      "path": "evidence/build-evidence/installcheck-release.log.gz",
+      "sha256": "e777a2d94d9c756edb8159cc1c95b5c2b991ab3428e7c7f10a7173b4f27e0662",
+      "bytes": 603
+    },
+    {
+      "path": "evidence/build-evidence/installcheck-assert.log.gz",
+      "sha256": "5e9dfc4ae6e42addbf354f19ff13a16114d4caf385409f40932076db16116465",
+      "bytes": 602
+    },
+    {
+      "path": "evidence/build-evidence/contrib-contrib-check.log",
+      "sha256": "7cf12214217c00feda5af557b639769c269a8fcfd7682d5bb4b6b68e1618b503",
+      "bytes": 6552
+    }
+  ]
+}

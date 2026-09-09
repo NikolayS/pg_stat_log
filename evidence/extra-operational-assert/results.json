@@ -1,0 +1,143 @@
+{
+  "assertions": [
+    {
+      "name": "deadlock/one-victim-one-survivor",
+      "status": "pass",
+      "actual": [
+        false,
+        true
+      ],
+      "expected": [
+        false,
+        true
+      ],
+      "note": "",
+      "category": "correctness"
+    },
+    {
+      "name": "deadlock/sqlstate-exact-count",
+      "status": "pass",
+      "actual": 1,
+      "expected": 1,
+      "note": "",
+      "category": "correctness"
+    },
+    {
+      "name": "deadlock/committed-survivor-only",
+      "status": "pass",
+      "actual": "1,1",
+      "expected": "1,1",
+      "note": "",
+      "category": "correctness"
+    },
+    {
+      "name": "connect/nonexistent-db-fails",
+      "status": "pass",
+      "actual": true,
+      "expected": true,
+      "note": "",
+      "category": "correctness"
+    },
+    {
+      "name": "connect/nonexistent-db-count",
+      "status": "pass",
+      "actual": 1,
+      "expected": 1,
+      "note": "",
+      "category": "correctness"
+    },
+    {
+      "name": "connect/nonexistent-db-null-database",
+      "status": "pass",
+      "actual": "t",
+      "expected": "t",
+      "note": "",
+      "category": "correctness"
+    },
+    {
+      "name": "connect/hba-rejection-fails",
+      "status": "pass",
+      "actual": true,
+      "expected": true,
+      "note": "",
+      "category": "correctness"
+    },
+    {
+      "name": "connect/hba-rejection-count",
+      "status": "pass",
+      "actual": 1,
+      "expected": 1,
+      "note": "",
+      "category": "correctness"
+    },
+    {
+      "name": "extension/drop-recreate-keeps-preloaded-collection",
+      "status": "pass",
+      "actual": 16,
+      "expected": 16,
+      "note": "",
+      "category": "correctness"
+    },
+    {
+      "name": "identity/dropped-role-oid-survives-name-null",
+      "status": "pass",
+      "actual": "16409|true",
+      "expected": "16409|true",
+      "note": "",
+      "category": "correctness"
+    },
+    {
+      "name": "identity/dropped-db-oid-survives-name-null",
+      "status": "pass",
+      "actual": "16410|true",
+      "expected": "16410|true",
+      "note": "",
+      "category": "correctness"
+    },
+    {
+      "name": "resize/core-stats-established",
+      "status": "pass",
+      "actual": 100,
+      "expected": 100,
+      "note": "",
+      "category": "correctness"
+    },
+    {
+      "name": "resize/unrelated-core-stats-preserved",
+      "status": "fail",
+      "actual": 0,
+      "expected": 100,
+      "note": "Contract probe: changing extension capacity should ideally not discard unrelated core cumulative counters.",
+      "category": "persistence-contract"
+    },
+    {
+      "name": "preload/removal-server-healthy",
+      "status": "pass",
+      "actual": 1,
+      "expected": 1,
+      "note": "",
+      "category": "correctness"
+    },
+    {
+      "name": "preload/removal-config",
+      "status": "pass",
+      "actual": "",
+      "expected": "",
+      "note": "",
+      "category": "correctness"
+    },
+    {
+      "name": "preload/readd-collection-healthy",
+      "status": "pass",
+      "actual": 5,
+      "expected": 5,
+      "note": "",
+      "category": "correctness"
+    }
+  ],
+  "summary": {
+    "pass": 15,
+    "fail": 1,
+    "error": 0
+  }
+}
