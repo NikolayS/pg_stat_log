@@ -39,3 +39,7 @@ Reuse the existing eight-dedicated-vCPU instance and pinned upstream; no second 
 4. Optional-path diagnostic: one exploratory block, clients 1/8, all four treatments, reader/readwrite, three five-second trials. Report diagnostic scope, not confirmed performance.
 
 Each arm must finish native Forge checks and exact message accounting. Failed artifacts retained, never merged with repaired runs. Pilot does not determine which preselected primary claims get published. Extend independent blocks for ambiguous primary intervals only with an explicitly recorded amended schedule, not until a favorable result appears. At roughly EUR 0.222/hour plus IPv4, budget several hours rather than a second/larger host. Always publish distributions and cloud/client/log-I/O limitations.
+
+### Logging-sink sensitivity preregistration
+
+Before comparative pilot results are available, add a separate five-block hot-warning confirmation at clients8/16 with baseline/disabled/on, three30-second trials andten-secondwarmup, `--log-sink devnull`. About50minutes timed lowerbound. This is a mechanism sensitivity excluding real log-file storage, not a replacement for primaryfilelogging. It is kept in a separate matrix; no pooling of file/devnull timings or selectedbest-sinkclaims.
