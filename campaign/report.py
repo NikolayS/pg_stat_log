@@ -54,7 +54,8 @@ def chart(rows):
     lo, hi = lo-padding, hi+padding
     scale = lambda n: 410 + (n-lo)/(hi-lo)*540
     height = 75 + 29*len(points)
-    out = [f'<svg viewBox="0 0 1000 {height}" role="img" aria-label="Throughput loss with paired-block 95 percent Student-t intervals. Numeric values follow in the table." xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" fill="white"/>']
+    description = 'Throughput loss with paired-block 95 percent Student-t intervals.' if any(r.get('ratio_ci95_t_log_blocks') for r in points) else 'Exploratory throughput point estimates; confidence intervals are not estimable.'
+    out = [f'<svg viewBox="0 0 1000 {height}" role="img" aria-label="{description} Numeric values follow in the table." xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" fill="white"/>']
     for i in range(6):
         n = lo+(hi-lo)*i/5
         x = scale(n)
@@ -135,7 +136,9 @@ def main():
     benchmark_dirs = sorted({p.parent for p in args.results.glob('*/plan.json') if 'schedule' in read(p, {})})
     benches = [benchmark_state(d) for d in benchmark_dirs]
     for d in benchmark_dirs:
-        for name in ['plan.json', 'status.json', 'trials.json', 'summary.json', 'hardware.json']:
+        for name in ['plan.json', 'status.json', 'trials.json', 'summary.json', 'hardware.json',
+                     'collection-verification.json', 'compression-manifest.json', 'observation-summary.json',
+                     'full-miss-path-validation.json', 'fullmiss-path-validation.json']:
             if (d/name).exists():
                 export(d/name)
     gates = read(args.gates, []) if args.gates else []
@@ -193,11 +196,28 @@ def main():
         with (args.output/f'{name}-comparisons.csv').open('w') as out:
             writer = csv.DictWriter(out, fieldnames=fields, extrasaction='ignore'); writer.writeheader(); writer.writerows(comparisons)
         bench_html += f'<article class="card"><h3>{ESC(name)} <span class="tag">{b["state"]}</span></h3><p>{len(b["statuses"])} / {b["expected_runs"]} scheduled native runs; {len(b["trials"])} / {b["expected_trials"]} measured subtrials; {b["invalid_runs"]} unvalidated runs and {b["invalid_trials"]} invalid subtrials.</p>'
+        raw_url = f'{ROOT}/tree/testing/master-forge-20260909/campaign/results/{name}'
+        bench_html += f'<p><a href="{ESC(raw_url)}">Complete raw {ESC(name)} evidence in GitHub</a> (native Forge records, measured outputs, observers and compressed server logs; not duplicated into this Pages bundle).</p>'
+        blocks = sorted({s.get('block') for s in b['plan'].get('schedule', []) if s.get('block') is not None})
+        if explicitly_pilot(b):
+            bench_html += '<p class="notice"><strong>Exploratory pilot, not confirmation.</strong> These timing points help validate the harness and plan the confirmation campaign. They do not establish stable overhead, a regression, or equivalence.</p>'
+        if len(blocks) == 1:
+            bench_html += '<p><strong>One independent randomized block:</strong> no between-block confidence interval is estimable. Repeated subtrials within that block do not create independent treatment comparisons. “Not estimable” is not a zero-width interval.</p>'
+        collection = read(args.results/name/'collection-verification.json', {})
+        if collection:
+            bench_html += f'<p><a href="evidence/{ESC(name)}/collection-verification.json">Artifact collection verification</a>: {ESC(collection.get("hashed_files", "unknown"))} hashed files; {ESC(len(collection.get("hash_failures", [])))} recorded hash failures. This is the supplied collection receipt, not a new rehash of the complete corpus by the HTML renderer.</p>'
+            if 'fullmiss_enabled_trials_including_warmup' in collection:
+                bench_html += f'<p>Full-table miss-path check: {ESC(collection["fullmiss_enabled_trials_including_warmup"])} enabled trials including warmups; {ESC(len(collection.get("fullmiss_path_failures", [])))} recorded path failures. See the collection receipt and raw trials for the separate path invariant; counted-plus-dropped conservation alone does not prove the miss path ran.</p>'
+        observation = read(args.results/name/'observation-summary.json', {})
+        if observation:
+            bench_html += f'<p><a href="evidence/{ESC(name)}/observation-summary.json">CPU/disk observer summary</a> covers {len(observation.get("runs", []))} whole native-run windows, including warmup and quiet tails. Samples combine co-located client and server activity. They are not synchronized per-trial attribution, and do not certify the absence of a CPU, storage, client or lock bottleneck.</p>'
+        if (args.results/name/'compression-manifest.json').exists():
+            bench_html += f'<p><a href="evidence/{ESC(name)}/compression-manifest.json">Lossless log-compression mapping and checksums</a>; original and compressed paths are mapped in the raw evidence directory.</p>'
         if b['state'] != 'COMPLETE':
             bench_html += '<p class="notice">This matrix is not complete and validated. Estimates below, if any, are provisional selected-cell evidence, not the full campaign result.</p>'
         bench_html += '<details><summary>Executed arguments and source/build pins</summary><pre>'+ESC(json.dumps({k:v for k,v in b['plan'].items() if k != 'schedule'}, indent=2))+'</pre></details>'
         if comparisons:
-            bench_html += chart(comparisons)
+            bench_html += '<p><strong>Throughput loss versus no preload (%):</strong> negative values mean faster. Each point is a paired-block ratio estimate; an absent interval is not evidence of precise or zero overhead.</p>' + chart(comparisons)
             rows=[]
             for r in comparisons:
                 ci = r.get('ratio_ci95_t_log_blocks')

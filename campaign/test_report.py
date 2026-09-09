@@ -112,6 +112,30 @@ class ReportValidity(unittest.TestCase):
                 self.assertIn('PILOT COMPLETE — CONFIRMATION PENDING',
                               (self.output / 'hackers-draft.txt').read_text())
 
+    def test_pilot_receipts_export_without_raw_corpus(self):
+        self.valid_fixture()
+        receipts = {
+            'collection-verification.json': {'hashed_files': 4, 'hash_failures': [],
+                'fullmiss_enabled_trials_including_warmup': 2, 'fullmiss_path_failures': []},
+            'compression-manifest.json': {'codec': 'gzip', 'files': []},
+            'observation-summary.json': {'runs': []},
+            'full-miss-path-validation.json': {'synthetic_fixture_only': True},
+        }
+        for name, value in receipts.items():
+            self.write(name, value)
+        (self.matrix / 'server-arm1.log').write_text('Synthetic raw log, not a Pages asset.')
+        manifest = self.generate()
+        paths = {a['path'] for a in manifest['artifacts']}
+        for name in receipts:
+            relative = 'evidence/synthetic-only/' + name
+            self.assertIn(relative, paths)
+            self.assertTrue((self.output / relative).is_file())
+        self.assertFalse((self.output / 'evidence/synthetic-only/server-arm1.log').exists())
+        self.assertIn('One independent randomized block', self.html)
+        self.assertIn('no between-block confidence interval is estimable', self.html)
+        self.assertIn('not synchronized per-trial attribution', self.html)
+        self.assertIn('/tree/testing/master-forge-20260909/campaign/results/synthetic-only', self.html)
+
     def test_missing_measured_trial_is_invalid(self):
         trials, _ = self.valid_fixture()
         self.write('trials.json', trials[:-1])
