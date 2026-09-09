@@ -1,0 +1,40 @@
+{
+  "external_summary": {
+    "pass": 131,
+    "fail": 19,
+    "error": 0,
+    "not_run": 0
+  },
+  "contrib_summary": {
+    "pass": 131,
+    "fail": 19,
+    "error": 0,
+    "not_run": 0
+  },
+  "all_assertion_names_statuses_and_actuals_match": true,
+  "both_created_clusters_stopped": true,
+  "artifact_sha256": {
+    "correctness-current-external-assert": {
+      "server.log.gz": "1c6e7ac386d8fabc49c6be1027ff07fd5c28aa0c00900e6bd629fc95b3c73b98",
+      "version.txt": "71ca834dbab8b6430d47d9d5a364e452422516d8b9aa280f3399fb933891043c",
+      "parallel_rows.json": "7632d009c6c52545bd3f59d19178a3f597e30c455a63d6acbe52703f164e031e",
+      "parallel_plan.json": "b528fb379e6c47228b0a6fc02e89213ca53c97b139d44657a0de59862b9b6d5f",
+      "driver.log": "ea6bb1c5abfa842fd80efb2a8ec90f911dccaa7a7cff6c4ee2d0371f1e81815f",
+      "commands.jsonl.gz": "58dbb3309a2ba16a1b1801eb67dd45704058b97dff4a4fd83d17e41edbdb4c3a",
+      "results.json": "2c46969fd62594df6236693e6d39c204e3d685b716b84a2a3b4c022dc4fe1feb",
+      "provenance.json": "8eef85310a153a8ab269760f32a2914d201ce0c7421c24d6ad802867fae61911"
+    },
+    "correctness-current-contrib-assert": {
+      "server.log.gz": "b2b5b21abd986069ad8829e0975fbe971ccac796b3309319916115f217550d7b",
+      "version.txt": "71ca834dbab8b6430d47d9d5a364e452422516d8b9aa280f3399fb933891043c",
+      "parallel_rows.json": "7632d009c6c52545bd3f59d19178a3f597e30c455a63d6acbe52703f164e031e",
+      "contrib-install.log": "f87964126022c442dbc3fdb90b276d62ec3451bf40f6844c7996787f96deba79",
+      "parallel_plan.json": "99b172f0c3cf4c797a7531662ace51e29df3636b80dc998b43d236d657b7e2b4",
+      "driver.log": "ea6bb1c5abfa842fd80efb2a8ec90f911dccaa7a7cff6c4ee2d0371f1e81815f",
+      "hook-install.log": "683815c73a3bcd7a3dc38e434d7ba7b3a525023a3666812fa5d44f7f5f065d6f",
+      "commands.jsonl.gz": "4e838bc07f19a5fbfd0ef6ecefc7689a3bddb533e8a0a3d5cc9ec37c216a39f7",
+      "results.json": "2c46969fd62594df6236693e6d39c204e3d685b716b84a2a3b4c022dc4fe1feb",
+      "provenance.json": "d5cd97ff472e15440b4c98a5160043e323e6f95ab9dc37098c659565f0adb0f0"
+    }
+  }
+}
