@@ -1,0 +1,2 @@
+[{"backend_type":"client backend","database_oid":null,"user_oid":"10","elevel":"FATAL","sqlerrcode":"3D000","sqlerrcode_name":"invalid_catalog_name","count":1}, 
+ {"backend_type":"client backend","database_oid":null,"user_oid":null,"elevel":"FATAL","sqlerrcode":"28000","sqlerrcode_name":"invalid_authorization_specification","count":1}]

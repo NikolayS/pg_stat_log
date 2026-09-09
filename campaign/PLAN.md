@@ -28,3 +28,14 @@ One temporary dedicated 8-vCPU Hetzner VM, no backups or volumes. Current fsn1 p
 ## Evidence rules
 
 Claims must name the tested SHA/build and workload. Mark limitations (single VM, confidence interval precision, untested versions/platforms, fault-injection coverage). Data generation is not a pass: assert results and retain failures. All planned cells must resolve to completed, failed, or explicitly justified not-run.
+
+## Resumed campaign schedule (Max, September 9)
+
+Reuse the existing eight-dedicated-vCPU instance and pinned upstream; no second host. Existing correctness results are recovered, not presented as fresh executions. Supplemental restart controls, boundary tests and crash backtrace precede any timing. No correctness/build workload runs alongside timing.
+
+1. Broad exploratory pilot: one block, three five-second trials, three-second warmup; clients 1/4/8/16; baseline/disabled/filtered/on; quiet/hot/cardinality/full_miss. About 19 minutes timed lower bound, excluding Forge overhead. No confidence claims from one block.
+2. Preselected confirmation: five independent blocks, three 30-second trials, ten-second warmup; clients 1/8; baseline/disabled/on; quiet/hot. About 100 minutes measured lower bound.
+3. Saturation confirmation: same five-block protocol, clients 8/16, baseline/on, full_miss (about 33 minutes lower bound).
+4. Optional-path diagnostic: one exploratory block, clients 1/8, all four treatments, reader/readwrite, three five-second trials. Report diagnostic scope, not confirmed performance.
+
+Each arm must finish native Forge checks and exact message accounting. Failed artifacts retained, never merged with repaired runs. Pilot does not determine which preselected primary claims get published. Extend independent blocks for ambiguous primary intervals only with an explicitly recorded amended schedule, not until a favorable result appears. At roughly EUR 0.222/hour plus IPv4, budget several hours rather than a second/larger host. Always publish distributions and cloud/client/log-I/O limitations.

@@ -1,0 +1,20 @@
+{
+  "scripts": [
+    "SET deadlock_timeout='100ms'; BEGIN; UPDATE extra_deadlock SET n=n+1 WHERE id=1; SELECT 'READY';\n",
+    "SET deadlock_timeout='100ms'; BEGIN; UPDATE extra_deadlock SET n=n+1 WHERE id=2; SELECT 'READY';\n",
+    "UPDATE extra_deadlock SET n=n+1 WHERE id=2; COMMIT;\n",
+    "UPDATE extra_deadlock SET n=n+1 WHERE id=1; COMMIT;\n"
+  ],
+  "outputs": [
+    {
+      "returncode": 3,
+      "stdout": "",
+      "stderr": "ERROR:  deadlock detected\nDETAIL:  Process 100953 waits for ShareLock on transaction 668; blocked by process 100955.\nProcess 100955 waits for ShareLock on transaction 667; blocked by process 100953.\nHINT:  See server log for query details.\nCONTEXT:  while updating tuple (0,2) in relation \"extra_deadlock\"\n"
+    },
+    {
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ]
+}
