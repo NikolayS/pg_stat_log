@@ -147,7 +147,7 @@ def forge_point():
     treatment = config['treatment']
     workload = config['workload']
     settings = capture_settings(env)
-    expected = {'log_min_messages': 'warning', 'client_min_messages': 'error',
+    expected = {'log_connections': 'on', 'log_min_messages': 'warning', 'client_min_messages': 'error',
                 'debug_assertions': 'off', 'jit': 'off', 'autovacuum': 'off',
                 'synchronous_commit': 'on', 'fsync': 'on',
                 'shared_preload_libraries': '' if treatment == 'baseline' else 'pg_stat_log'}
@@ -397,7 +397,8 @@ def main():
     pkglibdir = Path(command([args.pg_bin / 'pg_config', '--pkglibdir']).stdout.strip())
     binary_hashes = {str(p): hashlib.sha256(p.read_bytes()).hexdigest() for p in [args.pg_bin / 'postgres', args.pg_bin / 'pgbench', pkglibdir / 'pg_stat_log.so']}
     tool_versions = {'yq': command(['yq', '--version']).stdout.strip(), 'python': sys.version}
-    command(['initdb', '--pgdata=' + str(data), '--no-locale', '--encoding=UTF8'], env=env)
+    command(['initdb', '--pgdata=' + str(data), '--no-locale', '--encoding=UTF8',
+                        '--auth-local=peer', '--auth-host=scram-sha-256'], env=env)
     hardware = {name: command(argv, check=False).stdout for name, argv in {
         'lscpu': ['lscpu'], 'uname': ['uname', '-a'], 'free': ['free', '-b'],
         'lsblk': ['lsblk', '-J'], 'findmnt': ['findmnt', '-J']}.items()}
@@ -435,7 +436,7 @@ def main():
             treatment, workload = arm['treatment'], arm['workload']
             preload = '' if treatment == 'baseline' else 'pg_stat_log'
             with (data / 'postgresql.auto.conf').open('w') as handle:
-                handle.write(f"shared_preload_libraries='{preload}'\nport={args.port}\nunix_socket_directories='{socket}'\nlisten_addresses=''\nshared_buffers='1GB'\nmax_connections=64\nlog_min_messages=warning\nclient_min_messages=error\nlogging_collector=off\nlog_line_prefix=''\nlog_statement=none\nlog_min_duration_statement=-1\ntrack_io_timing=on\njit=off\nautovacuum=off\n")
+                handle.write(f"shared_preload_libraries='{preload}'\nport={args.port}\nunix_socket_directories='{socket}'\nlisten_addresses=''\nshared_buffers='1GB'\nmax_connections=64\nlog_connections=on\nlog_min_messages=warning\nclient_min_messages=error\nlogging_collector=off\nlog_line_prefix=''\nlog_statement=none\nlog_min_duration_statement=-1\ntrack_io_timing=on\njit=off\nautovacuum=off\n")
                 if treatment != 'baseline':
                     handle.write(f"pg_stat_log.enabled={'off' if treatment == 'disabled' else 'on'}\npg_stat_log.min_error_level={'error' if treatment == 'filtered' else 'warning'}\npg_stat_log.max_entries=1024\n")
             logfile = '/dev/null' if args.log_sink == 'devnull' else str(root / f'server-arm{number}.log')
